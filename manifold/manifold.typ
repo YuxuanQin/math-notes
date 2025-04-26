@@ -1,3 +1,9 @@
+#import "@preview/theorion:0.3.3": *
+#import cosmos.clouds: *
+#show: show-theorion
+
+// ↑ Theorem Environment ↑ //
+
 #show link: underline
 #set heading(numbering: "1.")
 #set par(
@@ -48,6 +54,13 @@ To be more imformative we may use:
 = Presheaf of ($E$-valued) funcions
 Given a bare set $E$, those presheaves $P$ such that $P(U)$ is some kinds of subset of $"Set"(U, E)$ for all opens $U$, where the restriction map is the obvious one.
 
+= Sheaf valued at the empty set 
+For sheaf $F$ defined on a topological space $X$, we claim that $F(nothing) = "singleton"$. The reason is that the empty-indexed product in any category is its (if exists) initial object, in the category $bold("Set")$ this means that $product_nothing = "singleton"$. Also note that $product.co_nothing = nothing$.
+
+So $product.co_nothing = nothing$ is a cover of $nothing$, and since $F$ is a sheaf,
+$ F(nothing) -> product_nothing = product_nothing $
+is a equalizer, so $F(nothing) = "singleton"$.
+
 = Morphisms between stalks are alyways more convenient
   - The possisble reason of this phenomena is that, in general you can't go back from a set of local data to global data in presheaves, and _sheaves_ are about local data, so it is difficult to define a morphism from $"Sh"(F)$ to $F$ for presheaves F. But the stalk $F_x$ _is_ about local data and permit you to construct an element by pure local data.
   - For example, in the proof of *Example 3.30*, one can easily define a morphism $alpha_x: tilde(F)_x := "Sh"(F)_x -> F_x$ by specify that, for an element $(g, {U_i})$ in $tilde(F)U$, the equvilence class defined by $(g|_(U_x), U_x)$ where $x in U_x$. And this is indeed a well morphism, which induces a map $tilde(F)_x -> F_x$.
@@ -65,7 +78,7 @@ Those are sheaves $F$ such that for any open $U$, there exist an open cover ${U_
 = Constant sheaves and trivial etale spaces
 We all agree something to be "constant" is some kinds of triviality, and under the equivalence of categories, this triviality should be preserved. And it is the fact that *constant sheaves correspond to trivial etale spaces*! To prove so, one need to prove that $"Et"(F)$ for some constant sheaf $F$ is a trivial etale space, _or_ $"Sh"(S, pi)$ is a constant sheaf. And after trials one find that the latter is much easier.
 
-  - Remark of "trivial etale spaces": The most trivial etale space of a topological space $X$ is ... $X$ it self with the indentity map. The second class of trivial etale spaces is the class of $X times E$ where $E$ is a set equipped with discrete topology, with the projection map.
+  - Remark of "trivial etale spaces": The most trivial etale space of a topological space $X$ is ... $X$ it self with the identity map. The second class of trivial etale spaces is the class of $X times E$ where $E$ is a set equipped with discrete topology, with the projection map.
   - Add the prefix "locally" we immediately obtain the finer correspondence between _locally constant sheaves_ and _locally trivial etale space_, i.e., _covering spaces_.
 
 = Ringed spaces
@@ -113,3 +126,69 @@ The fancy name of morphisms between complex premanifolds is "*holomorphic maps*"
 = Manifolds
   - Objects: Those premanifolds whose underlying spaces are *Hausdorff* and *second countable* (admit a countable bunch of basis).
   - Morphisms: Inherits from premanifolds.
+
+= $(KK, C^alpha_KK)$ is a manifold
+The only needed chart is $"id": (KK, C^alpha_KK) -> (KK, C^alpha_KK)$.
+
+We alyways equip $KK$ with this maniold struture, if without warning.
+
+
+= A Yoneda-style lemma of structure sheaf (Prop. 4.17)
+Given an arbitrary $KK$-premanifolds $(M, cal(O)_M)$, we claim that $"PMfd"(-, KK) tilde.eq cal(O)_M$. The isomorphism is given by $ [(t, t^flat): U -> KK] |-> [t^flat_KK ("id"_KK)]. $
+
+Note that $t^flat: C^alpha_KK -> t_*cal(O)_U$ is a morphism between sheaves. And $cal(O)_U V = cal(O)_M (U inter V)$, so $t^flat_KK ("id"_KK) in cal(O)_U U = cal(O)_M U$, which implies these morphism is well-defined, at least in the layer of codomain.
+
+
+  _proof:_ This is indeed a morphism between sheaves of $KK$-algebra. *TODO*
+
+= Torsor
+A torsor is a group forgotten its identity. More precisely, for a group object $G$ in $bold("Sh")(X)$ (thus a sheaf of groups), a $G$-torsor is a sheaf $T$ such that:
+  - There is a simply transitive $G$-action on $T$;
+  - $T$ is non trivial for a open covering of $X$.
+
+When $X = "singleton"$ we have $bold("Sh")(X) tilde.eq bold("Set")$. So at this time a torsor is just a set, and there is a bunch of group structures on $T$ induced by a bijection from $T$ to $G$. More explicitly for a fixed element $t in T$ we can define a bijection $alpha_t : T -> G$ as $x |-> g$ where $g$ is the unique one such taht $g t = x$.
+
+For any sheaf of groups $G$ we obtain a category $bold("Tors")(G)$, further, it is a groupoid since in $bold("Set")$ any morphism between $G$-torsors are isomorphism.
+
+$G$ itself is a torsor as well, those isomorphic to $G$ as torsors are called trivial. If $T(X)$ is non-empty then for all opens $U$ we have $T(U) tilde.eq G(U)$ naturally and thus $T tilde.eq G$. That is, *if $T(U)$ is non-empty then $T$ is trivial*.
+
+#example[The primitive function sheaf $"Prim"_f$ for a holomorphic function $f: M -> CC$ on complex plane is an $CC_M$-torsor. Where $CC_M$ is the constant sheaf target $M$, that is $CC_M (U) := {g : U -> M "locally constant"}$.]
+
+#example[For a bunch of discrete points ${p_i}$ on complex plane and a bunch of principal part $f_i$, we construct the Mittag-Leffler sheaf $"ml"$ on $CC$ as a sheaf of meromorphic funtions with only possisble singular points are ${p_i}$, where $"ml"(U) := {g: U -> CC, "around" p_i "has principal" f_i}$. Then $"ml"$ is a $cal(O)_CC$-torsor. ]
+
+*Notation*: By $H^1(X, G)$ we mean the isomorphic calsses of $G$-torsors.
+
+= Cech cohomology
+== Motivation
+See #link("https://math.stackexchange.com/questions/4709130/what-is-the-motivation-behind-the-definition-of-cech-cohomology")
+
+Notation stolen from section "Torsor".
+
+The Mittag-Leffler problem has a solution if and only if there is a bunch holomorphic functions ${h_i}$ around ${p_i}$ respectively such that $f_i + h_i = f_j + h_j$ for all $i, j$. Indeed we can construct a meromorphic function $g:= f_i + h_i$ which is a solution. Conversly, if there is a solution $g$ we define $h_i := g - f_i$. *TODO*
+
+== Definition
+#definition(title: "Cech cohomology of a covering")[
+  For a fixed open covering $cal(U) = (U_i)$ of $X$ and a sheaf of groups $G$, we define:
+  - A Cech 1-cocycles of $G$ on $cal(U)$ is a tuple $theta = (g_(i j))$ with $g_(i j) in G(U_(i j))$ and satisfies the _cocycle condition_: $ g_(i j)g_(j k) = g_(i k). $
+    
+    The set of all 1-cocycles are denoted by $hat(Z)(cal(U), G)$. It carries a group struture defined as component-wise multiplication.
+
+  - Two cocycles $theta$ and $theta'$ are called cohomologous if and only if there exist a bunch of elements $h_i in G(U_i)$ such that
+    $ h_i g_(i j) = g'_(i j) h_j. $
+    
+    (Being cohomologous is an equivalent relation.)
+
+Finally we define the *Cech cohomology on $cal(U)$*: 
+$ hat(H)(cal(U), G) := (hat(Z)(cal(U), G)) / "cohomologous". $
+
+In general $hat(H)(cal(U), G)$ is not a group. 
+]
+
+It's straightforward to extend this definition to global, first note that all covering of $X$ form a category $bold("Cov")(X)$ with refinements as morphisms and, $hat(H)(-, G): bold("Cov")^"op" (X) -> bold("Grp")$ is a functor.
+
+#definition(title: [Cech cohomology on $X$])[
+  The "global" cohomology is defined as a colimit:
+
+  $ hat(H)(X, G) := "colim"_(cal(U)) hat(H)(cal(U), G).  $
+  
+]
