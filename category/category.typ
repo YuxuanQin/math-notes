@@ -85,3 +85,13 @@ For monadic functor $U: cal(D) -> cal(C)$ with left adjoint $F: cal(C) -> cal(D)
      we need to prove that it both preserves and reflects limits.
       - Preserves limits: Since $U$ is a right adjoint.
       - Reflects limits: Since all faithful functors reflects limits, and $U$ is just faithful.
+
+= What if $"Hom"(-, x)$ preserves filtered colimit?
+Such hom functors are trivial in the following sense: $"Hom"(y, x) = nothing$ or $"Hom"(y, x) = "Hom"(x, x)$.
+
+  - _proof_: Suppose $x in C$, note that $bold(2) := {0 -> 1}$ is a filtered category (in fact all posets are filtered). For $y in C$ if there is no morphisms from $y$ to $x$ then we are done, otherwise there is at least one morphism $f : y -> x$ and we define $F: bold(2) -> C$ sending ${0 -> 1}$ to ${y -> x}$.
+    
+    So by assumption $"Hom"("colim"_bold(2) F, x) = "colim"_bold(2) "Hom"(F -, x) = "Hom"(x, x)$, and note that $"colim"_bold(2) F = x$, we are done.
+
+
+
