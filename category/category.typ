@@ -1,6 +1,7 @@
+#import "@preview/commute:0.3.0": node, arr, commutative-diagram
 #show link: underline
 #set text(font: (
-  (name: "libertinus serif", covers: "latin-in-cjk"),
+  (name: "libertinus serif"),
   "Noto Serif CJK SC"
 ))
 #set heading(numbering: "1.")
@@ -93,5 +94,20 @@ Such hom functors are trivial in the following sense: $"Hom"(y, x) = nothing$ or
     
     So by assumption $"Hom"("colim"_bold(2) F, x) = "colim"_bold(2) "Hom"(F -, x) = "Hom"(x, x)$, and note that $"colim"_bold(2) F = x$, we are done.
 
+= Filtered colimits commute with finite limits in $"Set"$
+For a functor $F: I times J -> "Set"$ with $I$ filtered and $J$ finite, we claim that $ "colim"_I "lim"_J F tilde.eq "lim"_J "colim"_I F. $
 
+  - _proof sketch_: We do not present the full proof in detail (see #link("https://dmitripavlov.org/notes/2018s-6325.pdf")[Prop. 23.7 in Dmitri's lecture]) but point out two important observations:
+    - First, please note that $F(i, j)$ is *not* a hom set, and $F$ is *not* a hom functor, which means it is *covariant in both $i$ and $j$*!
+    - Second, in the proof of surjectivity, the claim "If we increase $i$ further, we can also assume that for any morphism $f : j -> j′$ in $J$ we have $D(−, f)(y_j) = y_(j′)$" is the result of universal property of limit:
 
+#align(center, commutative-diagram(
+  node((0, 1), [$x in "lim"_J "colim"_I F$]),
+  node((1, 0), [$(i, y_j: D(i, j)) in "colim"_I D(-, j)$]),
+  node((1, 2), [$(i, y_(j') : D(i, j')) in "colim"_I D(-, j')$]),
+  arr((0, 1), (1, 0), []),
+  arr((0, 1), (1, 2), []),
+  arr((1, 2), (1, 0), [$"colim"_I D(-, f)$], label-pos: right),
+))
+
+For any $f: j -> j'$ the above diagram must commute, so by increasing $i$ to a suitable $i'$ (this process will halt since there are only finite such $f$ ) we can claim that result.
