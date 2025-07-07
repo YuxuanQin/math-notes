@@ -111,3 +111,17 @@ For a functor $F: I times J -> "Set"$ with $I$ filtered and $J$ finite, we claim
 ))
 
 For any $f: j -> j'$ the above diagram must commute, so by increasing $i$ to a suitable $i'$ (this process will halt since there are only finite such $f$ ) we can claim that result.
+
+= $"Ran"_G G$ is a monad if it exists
+This is the construction of socalled *codensity* monad of an arbitrary functor $G: A -> B$, and the monadness can be proved in a clever way:
+
+Define a category $r_G$ whose:
+- Objects: $(X: B -> B, x: X G => G)$, i.e., right extensions of $G$;
+- Morphisms between $(X, x)$ and $(Y, y)$: Natural transformations $eta: X => Y$ which campatible with $x$ and $y$.
+
+And $(r_G, "id"_B, compose)$ is a (strict) monoidal category.
+
+Then we find *$"Ran"_G G$ is the terminal object in $r_G$*! So by common abstract nonsense argument, it has an unique monoid structure.
+
+_Ref._ #link("http://www.tac.mta.ca/tac/volumes/28/13/28-13.pdf")[_CODENSITY AND THE ULTRAFILTER MONAD_, Section 5. Tom Leinster].
+
