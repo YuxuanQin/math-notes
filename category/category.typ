@@ -16,7 +16,7 @@
   columns: (1fr),
   align(center)[
 Author: 秦宇轩（Qin Yuxuan）\
-Last complied at #datetime.today().display() \
+Last compiled at #datetime.today().display() \
   ],
 )
 
@@ -92,7 +92,7 @@ Such hom functors are trivial in the following sense: $"Hom"(y, x) = nothing$ or
 
   - _proof_: Suppose $x in C$, note that $bold(2) := {0 -> 1}$ is a filtered category (in fact all posets are filtered). For $y in C$ if there is no morphisms from $y$ to $x$ then we are done, otherwise there is at least one morphism $f : y -> x$ and we define $F: bold(2) -> C$ sending ${0 -> 1}$ to ${y -> x}$.
     
-    So by assumption $"Hom"("colim"_bold(2) F, x) = "colim"_bold(2) "Hom"(F -, x) = "Hom"(x, x)$, and note that $"colim"_bold(2) F = x$, we are done.
+    So by assumption $"Hom"("colim"_bold(2) F, x) = "colim"_bold(2) "Hom"(F -, x) = "Hom"(y, x)$, and note that $"colim"_bold(2) F = x$, we are done.
 
 = Filtered colimits commute with finite limits in $"Set"$
 For a functor $F: I times J -> "Set"$ with $I$ filtered and $J$ finite, we claim that $ "colim"_I "lim"_J F tilde.eq "lim"_J "colim"_I F. $

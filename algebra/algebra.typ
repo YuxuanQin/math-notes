@@ -16,7 +16,7 @@
   columns: (1fr),
   align(center)[
 Author: 秦宇轩（Qin Yuxuan）\
-Last complied at #datetime.today().display() \
+Last compiled at #datetime.today().display() \
   ],
 )
 

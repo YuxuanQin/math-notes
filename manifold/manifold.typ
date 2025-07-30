@@ -20,7 +20,7 @@
   columns: (1fr),
   align(center)[
 Author: #text(font: "Noto Serif CJK SC")[秦宇轩]（Qin Yuxuan）\
-Last complied at #datetime.today().display() \
+Last compiled at #datetime.today().display() \
   ],
 )
 
