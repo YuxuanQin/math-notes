@@ -13,7 +13,8 @@
 // Paragraph indent
 #set par(first-line-indent: 1em)
 
-
+// Enable justification
+#set par(justify: true)
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////  Title  ///////////////////////////////
@@ -202,7 +203,7 @@ I saw this result in Prof. Leinster's paper (see reference below). And I think t
 
 So let's state it: the codensity monad $T$ of $"Field" arrow.r.hook "Ring"$ is $ T(R) = product_(p in "Spec"(R)) "Frac"(R slash p) $ where $"Frac"(R slash p)$ stands for the localization of $R$ with respect to a multiplicative subset $p$, and $R in "Ring"$.
 
-_proof_. Prof. Leinster claim that $T(R)$ is the limit of $R slash "Field" arrow.r.hook "Field" arrow.r.hook "Ring"$. And by consider the connected components (That is, the zigzag classes in a category) of $R slash "Field"$, we are only need to construct a morphism from $T(R)$ to each connected component since those components do nothing to each others anyway, and then assembly those morphisms together.
+_proof_. Prof. Leinster claim that $T(R)$ is the limit of $R slash "Field" arrow.r.hook "Field" arrow.r.hook "Ring"$. And by considering the connected components (That is, the zigzag classes in a category) of $R slash "Field"$, we are only need to construct a morphism from $T(R)$ to each connected component since those components do nothing to each others anyway, and then assembly those morphisms together.
 
 If two field $R -> k_1$ and $R -> k_2$ are in the same connected component of category $R slash "Field"$, then of course they share the same characteristic since they can communicate with each other, and furthur $ker (R -> k_1)$ is a prime ideal of $R$. Because the morphism between $k_1$ and $k_2$ is injective the kernels of $R -> k_i$ are the same. So we can classify the connected components by $"Spec"(R)$.
 
