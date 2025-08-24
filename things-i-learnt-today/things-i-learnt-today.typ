@@ -48,6 +48,8 @@ Last compiled at #datetime.today().display() \
 #show "Grp": $bold(upright(G r p))$
 #show "Set": $bold(upright(S e t))$
 #show "ACF": $bold(upright(A C F))$
+#show "Field": $bold(upright(F i e l d))$
+#show "Ring": $bold(upright(R i n g))$
 
 
 This is a diary-like note that recording what I have learnt that day, so I try to keep them short and readable instead of formal, but if furthur proofs or descriptions are needed then I would like to leave a pointer to my other notes.
@@ -180,3 +182,32 @@ By the Adjoint Functor Theorem, $Delta$ has a left adjoint, which is definitly i
 
 _Ref_. #link("https://math.stackexchange.com/questions/180477/abstract-nonsense-proof-of-the-cocompleteness-of-the-category-of-groups")[_Abstract nonsense proof of the cocompleteness of the category of groups_. Math Stack Exchange. Accessed at 2025-07-30.]
 
+
+== 08-23: Good use of Zorn's lemma
+
+Here is an interesting proposition about any non-separable metric space $(X, d)$: For every non-countable subset $U subset X$ and any real number $theta > 0$, there exists $x, y in U$ such that $x != y$ and $d(x, y) >= theta$.
+
+_proof_. Of course we need consider the opposite: suppose all non-countable subsets do not satisfy the property, or in a other way, all subsets admit that property are countable. Now we need to construct a countable dense subset.
+
+By Zorn's lemma, we obtain a sequence of sets ${S_n}_(n in NN)$ such that for all $x, y in S_n$, we have $d(x, y) >= 1/n$ (for simplicity we name this property as "$1/n$-sparse") and $S_n$ is a maximal subset with this property (Indeed, any chain consists of $1/n$-sparse subsets has a greatest element: the union of elements of the chain). And we claim that $S := union_(n in NN) S_n$ is a dense countable subset.
+
+  - It is countable: because $S_n$ is countable for all $n$;
+  - $S_n$ is dense: For any $x in X$ and any real number $r > 0$, there exists $n$ such that $1/n < r$, we claim that the open ball $B(x, r) inter S_n$ is not empty. If not, then we have $d(x, s) >= r > 1/n$, thus $S_n union {x}$ is again a $1/n$-sparse subset, contradict with the maximality of $S_n$. Since $x$ and $r$ are arbitrary, $S$ is indeed dense.
+
+_Ref_. _Lectures and Exercises on Functional Analysis_, Chapter 2, Exercise 2. A. Ya. Helemskii.
+
+
+== 08-24: The codensity monad of $"Field" arrow.r.hook "Ring"$
+I saw this result in Prof. Leinster's paper (see reference below). And I think there is something more deep behind this theorem, maybe related to commutative algebra or something but I don't know (yet).
+
+So let's state it: the codensity monad $T$ of $"Field" arrow.r.hook "Ring"$ is $ T(R) = product_(p in "Spec"(R)) "Frac"(R slash p) $ where $"Frac"(R slash p)$ stands for the localization of $R$ with respect to a multiplicative subset $p$, and $R in "Ring"$.
+
+_proof_. Prof. Leinster claim that $T(R)$ is the limit of $R slash "Field" arrow.r.hook "Field" arrow.r.hook "Ring"$. And by consider the connected components (That is, the zigzag classes in a category) of $R slash "Field"$, we are only need to construct a morphism from $T(R)$ to each connected component since those components do nothing to each others anyway, and then assembly those morphisms together.
+
+If two field $R -> k_1$ and $R -> k_2$ are in the same connected component of category $R slash "Field"$, then of course they share the same characteristic since they can communicate with each other, and furthur $ker (R -> k_1)$ is a prime ideal of $R$. Because the morphism between $k_1$ and $k_2$ is injective the kernels of $R -> k_i$ are the same. So we can classify the connected components by $"Spec"(R)$.
+
+And we are lucky: the initial object in each connected component exists: $R arrow.r.twohead R slash p arrow.r.hook "Frac"(R slash p)$ by the universal property of field of fractions, so the limit of those initial objects is exactly $T(R)$. Since those initial objects are in diffferent connected components, the limit of them is exactly the product of them, i.e., $T(R) = product_(p in "Spec"(R)) "Frac"(R slash p)$. 
+
+_Thought_. To compute a limit of a functor based on a category $B$, we can first classify the connected components of $B$, and compute the limit of each connected component and finally the product of those limits are what we need. Same argument also applies to co-limits, of course.
+
+_Ref_. #link("http://www.tac.mta.ca/tac/volumes/28/13/28-13.pdf")[_CODENSITY AND THE ULTRAFILTER MONAD_, Example 5.1. Tom Leinster].
