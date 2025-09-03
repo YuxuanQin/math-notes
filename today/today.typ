@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////
 ///////////////////////////  Settings  ////////////////////////////
 ////////////////////////////////////////////////////////////////////
-#import "@preview/commute:0.3.0": node, arr, commutative-diagram
+#import "@preview/fletcher:0.5.3" as fletcher: diagram, node, edge
 #show link: underline
 
 // Fonts
@@ -51,6 +51,9 @@ Last compiled at #datetime.today().display() \
 #show "ACF": $bold(upright(A C F))$
 #show "Field": $bold(upright(F i e l d))$
 #show "Ring": $bold(upright(R i n g))$
+#show "End": $bold(upright(E n  d))$
+#show "CAT": $bold(upright(C A T))$
+#show "Mnd": $bold(upright(M n d))$
 
 
 This is a diary-like note that recording what I have learnt that day, so I try to keep them short and readable instead of formal, but if furthur proofs or descriptions are needed then I would like to leave a pointer to my other notes.
@@ -212,3 +215,31 @@ And we are lucky: the initial object in each connected component exists: $R arro
 _Thought_. To compute a limit of a functor based on a category $B$, we can first classify the connected components of $B$, and compute the limit of each connected component and finally the product of those limits are what we need. Same argument also applies to co-limits, of course.
 
 _Ref_. #link("http://www.tac.mta.ca/tac/volumes/28/13/28-13.pdf")[_CODENSITY AND THE ULTRAFILTER MONAD_, Example 5.1. Tom Leinster].
+
+
+== 08-25: An algebra is amount to a functor
+Suppose $T: cal(A) -> cal(A)$ is a monad and we want to find a $T$-algebra structure on an object $a in cal(A)$, under some mild assumptions of the completeness of $cal(A)$, we can consider the monad morphisms between $T$ and the endomorphism monad of $a$, i.e. $"End"_a$, and that's exactly what we need to do, in theory.
+
+More precisely, we have a natural isomorphism:
+$ "CAT" slash cal(A) (a: bb(1) -> cal(A), U^T: cal(A)^T -> cal(A)) tilde.eq "Mnd" (T, "End"_a), $
+where $U^T$ is the forget functor from the Eilenberg-Moore category $cal(A)^T$ to $cal(A)$, and $"End"_a$ is the codensity monad of $a: bb(1) -> cal(A)$ which choose $a$.
+
+Admit this result, we can immediately see that if there is a monad morphism between $T$ and $"End"_a$, then there must be a morphism $g$ such that 
+
+#align(center)[
+#diagram({
+   node((-1, -1), [$bb(1)$])
+   node((0, 0), [$cal(A)$])
+   node((1, -1), [$cal(A)^T$])
+   edge((-1, -1), (0, 0), [$a$], label-side: right, "->")
+   edge((1, -1), (0, 0), [$U^T$], label-side: left, "->")
+   edge((-1, -1), (1, -1), [$g$], label-side: left, "->")
+})]
+
+commutes.
+
+So there exists $f: T x -> x$ in $cal(A)^S$ such that $U^T (f) = a$, where by definition $U^T (f) = x$. So we obtain a $T$-algebra structure on $a$.
+
+_Thought_. Wow, interesting! But I need to find some applications (if they exist)...
+
+_Ref_. #link("http://www.tac.mta.ca/tac/volumes/28/13/28-13.pdf")[_CODENSITY AND THE ULTRAFILTER MONAD_, Proposition 6.2, Example 6.3. Tom Leinster].
