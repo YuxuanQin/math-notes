@@ -66,8 +66,10 @@ Last compiled at #datetime.today().display() \
 
 
 I plan to learn algebraic topology with #link("https://loeh.app.uni-regensburg.de/teaching/topologie1_ws2122/lecture_notes.pdf")[Prof. Löh's notes], some other references:
-  - A Basic Course in Algebraic Topology (GTM 127), William S. Massey, Springer.
-  - A concise course in Algebraic Topology, Peter May.
+  - _A Basic Course in Algebraic Topology_ (GTM 127), William S. Massey, Springer.
+  - _A Concise Course in Algebraic Topology_, Peter May, availabe at https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf.
+
+We denote the concatenation of two path $g_12: x_1 ~~> x_2$ and $g_23: x_2 ~~> x_3$ by $g_12 dot g_23: x_1 ~~> x_2$, i.e., we apply $g_12$ *first*, then $g_23$.
 
 = Basic Definitions
 == Relative Homotopy
@@ -133,8 +135,6 @@ The new fashion can be found in [Wedhorn], [Löh], and #link("https://ncatlab.or
     - [May] requires nothing.
 ]
 
-TODO: Verify that nLab's definition of covering space coinsides with May's: the number of path-connected components of $p^(-1)(U_x)$ equals to $|p^(-1)(x)|$
-
 In short: Covering space is a locally trivial bundle with discrete fiber.
 
 
@@ -147,6 +147,15 @@ Examples:
 Note that to be a covering map, the fiber must be _discrete_. Here is one of non-exmaples:
 + The projection $S^1 times [0, 1] ->> S^1$ is not a covering map, since the fiber $[0, 1]$ is not discrete.
 
+== Basic Topological Properties
+#theorem(title: "fiber-wise diagonal of covering space is open and closed")[
+  For $p: E -> X$ a covering, the diagonal $Delta (E) := {(e, e): e in E}$ is both closed and open in $E times_X E$, the pullback of $p: E -> X$.
+] <diagonal>
+#proof[
+  See #link("https://ncatlab.org/nlab/show/covering+space")[nLab - _Covering spaces_, Lemma 3.2].
+]
+
+This will be used to prove the result: two lifts in a covering space of a path are either same, or different everywhere.
 
 == Produce covering spaces from group actions
 In this section, $G$ is a group endowed with discrete topology and $X$ is an arbitrary space. We fix a $G$-action on space $X$: $alpha: G -> "Aut"_("Top")(X)$, then it induces a covering space if this action is good enough. We always write $g x$ for $alpha_g x$.
@@ -235,5 +244,76 @@ The main idea is that we first prove the case $hat(X)$ is _global trivial_, and 
   Now glued them, we obtain the lifting $hat(f)$.
 
   For the uniqueness, if there are two such liftings, restrict them to $[(k - 1)/n, k/n]$ and by the uniqueness of trivial case, these two restriction are same. Thus the two liftings are same.
+]
+
+#theorem(title: "lifts out of connected space into covering spaces are unique relative to any point")[
+  For a commutative diagram
+  #align(center, diagram({
+     node((-1, 1), [$Y$])
+     node((0, 1), [$X$])
+     node((0, 0), [$E$])
+     edge((-1, 1), (0, 1), [$f$], label-side: right, "->")
+     edge((0, 0), (0, 1), [$p$], label-side: left, "->")
+     edge((-1, 1), (0, 0), [$tilde(f)_1$], label-side: center, "->", bend: -9deg)
+     edge((-1, 1), (0, 0), [$tilde(f)_2$], label-side: center, shift: 0.15, "->", bend: 9deg)
+  }))
+  where $Y$ is connected and $p: E -> X$ a covering, either $tilde(f)_1$ and $tilde(f)_2$ are same, or different everywhere.
+]
+#proof[
+  These two lifts $tilde(f)_1$ and $tilde(f)_2$ induces a map $angle.l tilde(f)_1, tilde(f)_2 angle.r: Y -> E times_X E$.
+
+  Since $Delta(E)$ is clopen in $E times_X E$ (recall @diagonal), the pre-image of it under $angle.l tilde(f)_1, tilde(f)_2 angle.r$ is also clopen. But $Y$ is connected, so the pre-image is either $Y$ or empty.
+]
+
+
+#theorem(title: "Lifting of homotopies")[
+  TODO.
+]
+#proof[
+  TODO.
+]
+
+#theorem(title: "Lifting of arbitrary maps")[
+  Let $(tilde(X), p)$ be a covering of $X$ and $tilde(x)_0 in tilde(X)$ be a pre-image of $x_0$. Suppose $Y$ is *connected and locally path-connected*. For a continuous map $phi: (Y, y_0) -> (X, x_0)$, there exists a lifting $tilde(phi): (Y, y_0) -> (tilde(X), tilde(x)_0)$ if and only if $phi_* pi_1(Y, y_0) subset p_* pi_1 (tilde(X), tilde(x)_0)$.
+
+#align(center, diagram({
+   node((-1, 1), [$(Y,y_0)$])
+   node((0, 1), [$(X,x_0)$])
+   node((0, 0), [$(tilde(X),tilde(x)_0)$])
+   edge((-1, 1), (0, 1), [$phi$], label-side: left, "->")
+   edge((0, 0), (0, 1), [$p$], label-side: right, "->")
+   edge((-1, 1), (0, 0), [$exists tilde(phi)$], label-side: left, "-->")
+}))
+]
+#proof[
+  For simplicity we denote the fundamental group of a space $W$ at point $w$ as $pi (W, w)$, i.e. omit the subscript $1$.
+  - If such $tilde(phi)$ exists, then since the fundamental group $pi: "Top"_* -> "Grp"$ is a functor, the following diagram also commutes:
+  #align(center, diagram({
+     node((-1, 1), [$pi (Y,y_0)$])
+     node((0, 1), [$pi (X,x_0)$])
+     node((0, 0), [$pi (tilde(X),tilde(x)_0)$])
+     edge((-1, 1), (0, 1), [$phi_*$], label-side: left, "->")
+     edge((0, 0), (0, 1), [$p_*$], label-side: right, "->")
+     edge((-1, 1), (0, 0), [$tilde(phi)_*$], label-side: left, "-->")
+  }))
+  So the desired property is immediate.
+  - If $phi_* pi_1(Y, y_0) subset p_* pi_1 (tilde(X), tilde(x)_0)$, we need to construct a $tilde(phi)$ such that the diagram in theorem commutes.
+
+    Note that $Y$ is global path-connected since it is connected and locally path-connected, so there exists at least one path $g: y_0 ~~> y$ for all point $y in Y$. Then by compose $phi$ we obtain a path $phi g: x_0 ~~> x := phi g (y)$. By the lifting property of paths in $X$, we then obtain a path $tilde(phi g)$ in $tilde(X)$ with the chosen initial point $tilde(x)_0$, let $tilde(x)$ be the final point of this lifting path.
+
+    So we start with an arbitrary point $y$ in $Y$ and end with a point $tilde(x)$ in $tilde(X)$, and we, bravely, define $tilde(phi)(y) = tilde(x)$.
+
+    Of course we need to verify this procedure is well-defined:
+      - *$tilde(x)$ is independent with the connecting path:* Suppose we have two different paths $g_1, g_2: y_0 ~~> y$, and the resulting final points by using these paths in $tilde(X)$ are $tilde(x)_1$ and $tilde(x)_2$, resp. We need to verify $tilde(x)_1 = tilde(x)_2$.
+
+        Let $g_2^(-1): y ~~> y_0$ be the inverse path of $g_2$, then $g_1 dot g_2^(-1): y_0 ~~> y_0$ is an (representative) element in $pi (Y, y_0)$. And thus $phi_* (g_1 dot g_2^(-1)) = (phi g_1) dot (phi g_2)^(-1) in pi (X, x_0)$. By assumption, there exists a path $alpha in pi (tilde(X), tilde(x)_0)$ such that $p_* alpha = (phi g_1) dot (phi g_2)^(-1)$.
+
+        So tired, for a complete proof see #link("https://ncatlab.org/nlab/show/covering+space")[nLab - _Coverign space_, Proposition 3.9].
+      - *$tilde(phi)$ makes the diagram commutative:* Because of the lifting property of $tilde(phi g)$.
+      - *$tilde(phi)$ is continuous:* TODO.
 
 ]
+
+
+= Basic notions in Singular Homology
+For motivations, see []
