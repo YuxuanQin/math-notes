@@ -311,7 +311,18 @@ The main idea is that we first prove the case $hat(X)$ is _global trivial_, and 
         So tired, for a complete proof see #link("https://ncatlab.org/nlab/show/covering+space")[nLab - _Coverign space_, Proposition 3.9].
       - *$tilde(phi)$ makes the diagram commutative:* Because of the lifting property of $tilde(phi g)$.
       - *$tilde(phi)$ is continuous:* TODO.
+]
 
+Wow, a bunch of theorems, arguments, we need an application!
+
+#example(title: "Universal Covering Space")[
+  If $(tilde(X), p)$ is a covering space of $X$, and $tilde(X)$ is connected, *path-connected and simply-connected*; then it is unique up to isomorphisms.
+
+  Furthur, $tilde(X)$ is the initial object in the category $"Cov"(X)$, which consists of coverings of $X$.
+]
+
+#proof[
+  For the first part, note that for two such coverings $(tilde(X)_1, p_1)$ and $(tilde(X)_2, p_2)$. Choose $tilde(x)_i in p_i^(-1)(x_0)$, and by the lifting theorem we can lift $p_1$ to an *unique* $tilde(p)_1: (tilde(X)_1, tilde(x)_1) -> (tilde(X)_2, tilde(x)_2)$ since $pi (tilde(X)_1)$ is trivial. By the same argument we obtain $tilde(p)_2: (tilde(X)_2, tilde(x)_2) -> (tilde(X)_1, tilde(x)_1)$. Now consider $tilde(p_1) compose tilde(p)_2: (tilde(X)_2, tilde(x)_2) -> (tilde(X)_2, tilde(x)_2)$, which must be the identity on $(tilde(X)_2, tilde(x)_2)$ since the both this map and the identity map are liftings of $p_2$, and by the lifting theorem, such lifting is *unique*, so the result is immediate. (See also #link("https://ncatlab.org/nlab/show/universal+covering+space")[nLab - _Universal covering space_, Proposition 1.1]).
 ]
 
 
