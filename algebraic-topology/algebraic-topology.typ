@@ -265,6 +265,25 @@ The main idea is that we first prove the case $hat(X)$ is _global trivial_, and 
   Since $Delta(E)$ is clopen in $E times_X E$ (recall @diagonal), the pre-image of it under $angle.l tilde(f)_1, tilde(f)_2 angle.r$ is also clopen. But $Y$ is connected, so the pre-image is either $Y$ or empty.
 ]
 
+There is another proof does not use @diagonal from [Massey, Chapter V, Lemma 3.2] (and thus we need not to prove those tedious point-set topological results):
+
+#proof[
+  For simplicity we write $tilde(f)_i$ as $f_i$.
+
+  We prove that, $K := {y in Y: f_1 y = f_2 y}$ is clopen.
+  - $K$ is closed: We prove that its closure $overline(K) = K$ itself. For $a in overline(K) - K$, i.e. $f_1 a != f_2 a$, but $p f_1 a = p f_2 a$. Now let $V_1, V_2 subset E$ be the elementary neihgbourhoods of these two point $p f_1 a$ and $p f_2 a$ resp. Since $E$ is a covering space, by definition $V_1$ and $V_2$ are disjoint.
+    
+    Now consider $W := f_1^(-1) V_1 inter f_2^(-1) V_2$ which is an open neihgbourhood of $a$, and $f_1 W inter f_2 W = emptyset$ by the definition of $V_1$ and $V_2$, this implies $W inter K = emptyset$, contradicts to the assumption that $a in overline(K)$.
+
+  - $K$ is open: We prove that for any $y in K$, there exists an open neihgbourhood of $y$ which contained in $K$.
+
+    If $y in K$, i.e. $f_1 y = f_2 y =: tilde(y)$, let $V$ be the component in $E$ contains $tilde(y)$. Now consider $W := f_1^(-1) V inter f_2^(-1) V$ which is an open neihgbourhood of $y$, we claim that $W subset K$.
+
+    For $a in W$, $f_1 a$ and $f_2 a$ are both in $V$, an elementary neihgbourhood of $tilde(y)$ in $E$, which is homeomorphic to an open set around $p tilde(f)$. Note that both $f_1 a, f_2 a in V$ are pre-images of $p f_1 a = p f_2 a$, since $p$ restricted to $V$ is a homeomorphism, it must be injective and thus $f_1 a = f_2 a$, so $a in K$.
+]
+
+This result will be used to provide a neccessary condition of TODO: (a $G$-space $Y$ is a covering space of $Y slash G$ via the canonical projection with $"Aut"(Y) = G$)
+
 
 #theorem(title: "Lifting of homotopies")[
   TODO.
