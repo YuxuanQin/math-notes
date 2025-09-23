@@ -129,14 +129,9 @@ There are (at least) two definitions of covering spaces over a given base topolo
 
 The new fashion can be found in [Wedhorn], [Löh], and #link("https://ncatlab.org/nlab/show/covering+space")[_covering space_ on nLab]; while the old one can be found in [Massey] and [May].
 
-#remark[
-  The old fashion definition is in fact not consistent:
-    - [Massey] requires that both covering spaces and base spaces are _path-connected_ and _locally path-connected_.
-    - [May] requires nothing.
-]
-
 In short: Covering space is a locally trivial bundle with discrete fiber.
 
+This whole section can be rewritten in groupoid-theoretic language, as done in [May, Chapter 3].
 
 == Examples and non-exmaples
 Examples:
@@ -158,7 +153,9 @@ Note that to be a covering map, the fiber must be _discrete_. Here is one of non
 This will be used to prove the result: two lifts in a covering space of a path are either same, or different everywhere.
 
 == Produce covering spaces from group actions
-In this section, $G$ is a group endowed with discrete topology and $X$ is an arbitrary space. We fix a $G$-action on space $X$: $alpha: G -> "Aut"_("Top")(X)$, then it induces a covering space if this action is good enough. We always write $g x$ for $alpha_g x$.
+In this section, $G$ is a group endowed with discrete topology and $X$ is an arbitrary space. We fix a $G$-action $alpha: G -> "Aut"_("Top")(X)$, then it induces a covering space if this action is good enough. We always write $g x$ for $alpha_g x$.
+
+The investigations of group actions on spaces will help us to prove the correspondence between $"Sub"(pi_1 (X))$ and $"Cov"(X)$ for a good enough $X$, such as spaces which admit a universal covering space.
 
 Denote the orbit of $x in X$ as $G x := {g x : g in G}$.
 
@@ -347,3 +344,30 @@ Wow, a bunch of theorems, arguments, we need an application!
 
 = Basic notions in Singular Homology
 For motivations, see []
+
+== Excision Lemma
+The excision lemma is a powerful tool for computing homology groups.
+
+#theorem(title: "Homology is invariant under excision")[
+  For a space $X$, the homology group is invariant under tame excision, formally, if $A subset X$ is a subspace and $W subset A$, then
+  $ H_n (X, A) tilde.eq H_n (X - W, A - W), $
+  provided that $W$ is "totally" contained in $A$, to be precise, $"cl"_X (W) subset "int"_X (A).$
+]
+
+We can use this theorem to compute $H_n (S^k)$. (TODO: digest the computation in [Massey])
+
+To prove this result, we need a construction called "subdivision", which is used to restrict our attention of singular cubes to a "smaller" ones without losing any information.
+
+For example, if we are working in a metric space, then subdivision enables us to just consider cubes with diameter less than a given positive number, and the homology groups of those small cubes are isomorphic to the homology groups of all cubes.
+
+To formalize what is "small" in an arbitrary topological space, we need the following definition:
+
+#definition(title: "Small cube")[
+  Let $cal(U) := {U_lambda}$ be a family of subsets in $X$ such that ${"int"_X (U_lambda)}$ covers $X$.
+
+  A singular $n$-cube $T: I^n -> X$ is said to be small of order $cal(U)$ if there exists an index $lambda$ such that $"im" T subset U_lambda$.
+]
+
+#example(title: "Trivial small cube")[
+  The trivial $n$-cube $T$ which sends all things to a single point is small of any order.
+]
