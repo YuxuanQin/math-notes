@@ -371,3 +371,104 @@ To formalize what is "small" in an arbitrary topological space, we need the foll
 #example(title: "Trivial small cube")[
   The trivial $n$-cube $T$ which sends all things to a single point is small of any order.
 ]
+
+= (Co)fibration
+TODO: Check the proofs in [May].
+
+Cofibrations are good inclusions, in the sense that if $i: A arrow.r.hook X$ is a cofibration and $A$ is contractible, then the quotient map $q: X -> X slash A$ is a homotopy equivalence. (TODO: counter-examples when $i$ is not a cofibration)
+
+With this property, we can show that all subgroups of a free group is free again: the main part using cofibration is that, for a maximal tree $T$ of a finite connected plane graph $X$, the inclusion $i: T arrow.r.hook X$ is a cofibration. And note that $T$ is contractible, $X$ and $X slash A$ (a wedge product of circles) share the smae homotopy type, so the fundamental group of any finite connected plane graph is free.
+
+#definition(title: "Cofibration")[
+  A map $i: A -> X$ is called a cofibration if it admits the *homotopy extension property* (HEP): for any homotopy $h: A times I -> Y$ makes the upper triangle commutes, it admits an extension $tilde(h): X times I -> Y$, in diagram:
+#align(center, diagram({
+   node((0, 0), [$A$])
+   node((0, 2), [$X$])
+   node((2, 0), [$A times I$])
+   node((1, 1), [$Y$])
+   node((2, 2), [$X times I$])
+   edge((0, 0), (0, 2), [$i$], label-side: right, "->")
+   edge((0, 0), (2, 0), [$"inl"_0$], label-side: left, "->")
+   edge((2, 0), (1, 1), [$h$], label-side: center, "->")
+   edge((0, 2), (1, 1), [$f$], label-side: center, "->")
+   edge((0, 2), (2, 2), [$"inl"_0$], label-side: right, "->")
+   edge((2, 0), (2, 2), [$i times "id"_I$], label-side: left, "->")
+   edge((2, 2), (1, 1), [$exists tilde(h)$], label-side: center, "-->")
+}))
+]
+
+#warning-box[In the definition we do not require $tilde(h)$ to be unique! (And it usually isn't)]
+
+There is an universal test for a map to be a cofibration: the mapping cylinder.
+
+#definition(title: "Mapping Cylinder")[
+  For a map $f: X -> Y$ between spaces, we define the mapping cylinder $M f$ of $f$ to be the pushout:
+#align(center, diagram({
+   node((0, 0), [$A$])
+   node((0, 1), [$X$])
+   node((1, 0), [$A times I$])
+   node((1, 1), [$M f:= X product.co _f (A times I)$])
+   edge((0, 0), (0, 1), [$f$], label-side: right, "->")
+   edge((0, 1), (1, 1), "->")
+   edge((1, 0), (1, 1), "->")
+   edge((0, 0), (1, 0), "->")
+}))
+
+The category of compactly generated spaces admits pushout so it is well defined.
+]
+
+#proposition(title: "Mapping cylinder as universal test")[
+  A map $i: A -> X$ is a cofibration if and only if HEP is true for $M i$.
+]
+#proof[
+  One direction is obvious. The other direction can be proved by the universal property of pushout.
+]
+
+#proposition(title: "Cofibrations are injective with closed image")[
+  As the name suggests.
+]
+#proof[
+  - For injectivity, use the universal property of $M i$, and note that the inclusions into pushout are always injective.
+  - For the rest part, TODO.
+]
+
+
+Any map can be decomposed into a cofibration and a homotopy equivalence through its mapping cylinder.
+
+#theorem(title: "Replacing maps by cofibrations")[
+  For any map $f: X -> Y$, it admits a decomposition $f = r compose (iota compose "inl"_0)$:
+#align(center, diagram({
+   node((0, 0), [$X$])
+   node((0, 1), [$Y$])
+   node((1, 0), [$X times I$])
+   node((1, 1), [$M f$])
+   node((2, 2), [$Y$])
+   edge((0, 0), (0, 1), [$f$], label-side: right, "->")
+   edge((0, 0), (1, 0), [$"inl"_0$], label-side: left, "->")
+   edge((1, 0), (1, 1), [$iota$], label-side: right, "hook->")
+   edge((0, 1), (1, 1), [$i$], label-side: left, "hook->")
+   edge((0, 1), (2, 2), "=", bend: -54deg)
+   edge((1, 0), (2, 2), [$(x, -) mapsto f(x)$], label-side: left, "->", bend: 54deg)
+   edge((1, 1), (2, 2), [$exists ! r$], label-side: center, "-->")
+}))
+
+And $r$ is a homotopy equivalence, $(iota compose "inl"_0)$ is a cofibration.
+]
+#proof[
+  TODO
+
+  May claim that it is not hard to directly show that $(iota compose "inl"_0)$ is a cofibration, but there seems to be a more systematic way: the criteria of a map to be a cofibration.
+]
+
+#theorem(title: "Criteria of cofibration")[
+  For a *closed* subspace $i: A arrow.r.hook X$, the following are equivalent:
+  + $(X, A)$ is an NDR-pair;
+  + $(X times I, X times {0} union A times I)$ is a DR-pair;
+  + $X times {0} union A times I$ is a retract of $X times I$;
+  + The inclusion $i: A arrow.r.hook X$ is a cofibration.
+]
+#proof[
+  TODO
+]
+
+
