@@ -341,6 +341,28 @@ Wow, a bunch of theorems, arguments, we need an application!
   For the first part, note that for two such coverings $(tilde(X)_1, p_1)$ and $(tilde(X)_2, p_2)$. Choose $tilde(x)_i in p_i^(-1)(x_0)$, and by the lifting theorem we can lift $p_1$ to an *unique* $tilde(p)_1: (tilde(X)_1, tilde(x)_1) -> (tilde(X)_2, tilde(x)_2)$ since $pi (tilde(X)_1)$ is trivial. By the same argument we obtain $tilde(p)_2: (tilde(X)_2, tilde(x)_2) -> (tilde(X)_1, tilde(x)_1)$. Now consider $tilde(p_1) compose tilde(p)_2: (tilde(X)_2, tilde(x)_2) -> (tilde(X)_2, tilde(x)_2)$, which must be the identity on $(tilde(X)_2, tilde(x)_2)$ since the both this map and the identity map are liftings of $p_2$, and by the lifting theorem, such lifting is *unique*, so the result is immediate. (See also #link("https://ncatlab.org/nlab/show/universal+covering+space")[nLab - _Universal covering space_, Proposition 1.1]).
 ]
 
+== Covering spaces from group actions
+If a group $G$ acts well on a good space, then we obtain a covering map for free, in detail:
+
+#theorem(title: "Covering space from group action")[
+  Let $Y$ be a connected, locally path-connected space and let $G$ be a *properly discontinuous* group of homeomorphisms of $Y$, then the projection $p: Y -> Y slash G$ is a regular covering with the deck group $"Deck"(p) := "Aut"(Y, p) = G$.
+]
+
+When $Y$ is simply-connected, it is further the universal covering of $Y slash G$, thus we know the fundamental group of $Y slash G$, as $pi_1(Y slash G) = "Deck"(p) = G$.
+
+We can use this theorem to compute fundamental groups of some good spaces.
+
++ *The fundamental group of $RR P^n$*: We claim
+$ pi_1(RR P^n) := cases(
+  ZZ "   if" n = 1,
+  ZZ slash 2 "if otherwise".
+) $
+#proof[
+  The case of $n = 1$ is left as an excersice.
+
+  When $n >= 2$, consider the antipodal map $T: S^n -> S^n$, which is continuous and nilpotent, i.e. $T^2 = "id"$. Note that ${T, T^2}$ is a group consists of discontinuous homeomorphisms of $S^2$, and $S^n$ is a good space, the theorem tell us $p: S^n -> S^n slash {T, T^2}$ is a covering map with deck group $"Deck"(p) = {T, T^2}$.
+]
+
 
 = Basic notions in Singular Homology
 For motivations, see []
