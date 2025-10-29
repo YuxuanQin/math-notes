@@ -12,6 +12,7 @@
 #show link: underline
 
 // Fonts
+#set text(lang: "zh", region: "cn")
 #set text(font: (
   (name: "libertinus serif"),
   "Noto Serif CJK SC"
@@ -74,6 +75,114 @@ TODO
 
 = 完备度量空间
 TODO
+
+= 赋范空间、连续线性映射
+#definition(title: "等价的范数")[
+  线性空间 $X$ 上的两个范数 $p_1, p_2$ 若诱导出相同的拓扑，则称这两个范数等价。
+]
+#remark[
+  等价范数保持紧性、线性空间的完备性。
+]
+
+#theorem(title: "有限维线性空间上的所有范数都等价")[
+  如其名。
+]
+#proof[
+  基本思想：范数等价是等价关系，只需证明所有范数和某一个范数等价即可。
+
+  通常做法是证明任意范数 $p$ 和最大模范数 $|| dot ||_oo$ 等价。设 $x in KK^n$ 是任意向量。
+
+  - $p(sum_(k <= n) x_k e_k ) <= p(sum_(k <= n) e_k) dot max_k |x_k| = p(sum_(k <= n) e_k) dot ||x||_oo$，则取 $C_1 = p(sum e_k)$ 即可。
+
+  - 另一个方向要用到单位球面的紧性，注意 $p: (KK^n, || dot ||_oo) -> [0, +oo)$ 连续，则因单位球面紧，$p$ 取到最小值 $C_2$，则
+    $ p(x) = ||x||_oo p(x/(||x||_oo)) >= C_2 ||x||_oo. $
+    因为 $x/(||x||_oo)$ 在单位球面上。
+]
+#remark[
+  + 证明第二点中声称单位球面紧，当然可以通过欧氏空间的一般理论得到，但是下文提到的 Riesz 表示定理能给一种通用证明。
+  + 因 $(KK^n, ||dot||_oo)$ 完备且等价范数保持一些良好性质（参考上一个注解），知任何有限维赋范空间都是 Banach 空间，且有界闭集 $<==>$ 紧集。
+]
+
+下面我们展示无穷维空间中两个不等价的范数：
+
+设 $C([0, 1])$ 表示 $[0, 1]$ 上的全体实连续函数，$f in C([0, 1])$，定义 $||f||_oo := sup |f|$ 为最大模范数，容易证明这个范数完备。
+
+再定义 $L^1$ 范数 $||f||_1 := integral_0^1 |f|$，这个范数不完备。
+
+#theorem(title: "Riesz 定理")[
+  设 $(E, ||dot||)$ 是赋范空间，则 $E$ 有限维 $<==>$ 单位闭球 $overline(B)(0, 1)$ 紧。
+]
+
+== 连续线性映射
+#theorem(title: [连续 $<==>$ 有界])[
+  设 $f: X -> Y$ 是赋范空间之间的线性映射，则 $f$ 连续 $<==>$ $f$ 有界。
+]
+#proof[
+  - $f$ 连续，则在 $0$ 附近小于 $1$，因 $f(0) = 0$，则存在 $r$，对任意 $x in X$，有 $||f(r dot x/(||x||))|| < 1$，知 $f$ 有界。
+  - 另一个方向显然。
+]
+
+所以，为了在研究中充分利用赋范线性空间上的几何信息，我们通常只考虑有界线性映射，记为 $cal(B)(X, Y)$。
+
+容易证明 Banach 空间和有界线性映射构成范畴，记为 $bold("Ban")$。
+
+#theorem[
+设 $E$ 是赋范空间，$F$ 是 Banach 空间，$U$ 有限维赋范空间，则
+
+- $cal(B)(E, F)$ 也是 Banach 空间；
+- $cal(L)(U, E) = cal(B)(U, E)$；
+]
+#proof[
+  - 第一点：不难；
+  - 第二点：有限维赋范空间上的所有范数都等价，外加三角不等式足矣。
+]
+
+== $L_p$ 空间
+#definition(title: [$L_p$ 空间])[
+  设 $(Omega, cal(S), mu)$ 是一个测度空间，若 $f: Omega -> KK$ 满足
+  $ integral_Omega |f|^p d mu < oo, $
+  则称其为 $p$-方可积。
+
+  定义 $L_p (Omega)$ 为在测度意义下相等的全体 $p$-方可积函数。
+
+  定义
+  $ ||f||_p := (integral_Omega |f|^p d mu)^(1/p). $
+]
+
+
+#theorem(title: "Holder 不等式")[
+  设 $p, q in (0, +oo]$ 且 $1/p + 1/q = 1/r$，若 $f in L_p (Omega), g in L_q (Omega)$，则 $f g in L_r (Omega)$ 且
+  $ ||f g||_r <= ||f||_p ||g||_q. $
+]
+#remark[
+  当 $p = q = 2$ 时，这个不等式告诉我们
+  $ integral |f g| <= ||f||_2 ||g||_2, $
+  因此我们可以在 $L_2(Omega)$ 上定义内积 $(f, g) := |integral f g| < integral |f g|$ 存在。
+
+  有了内积，就可以利用 Hilbert 空间的理论了，这可以算是 Fourier 分析的开端。
+]
+
+我们为什么研究 $L_p$ 空间？
+
+#theorem(title: [$||dot||_p$ 是个范数，再不济也能诱导一个度量])[
+  - 当 $p in [1, +oo]$ 时，$||dot||_p$ 是 $L_p$ 上的范数，记诱导出的度量为 $d_p$；
+  - 当 $p in (0, 1)$ 时，$d_p (f, g) := ||f - g||_p^p$ 是度量。
+]
+#remark[
+  这两个结论直接来源于 Минковский 不等式：
+  - For all $p in [1, +oo]$, we have $||f + g||_p <= ||f||_p + ||g||_p$;
+  - For all $p in (0, 1)$, we have $||f + g||_p^p <= ||f||_p^p + ||g||_p^p$.
+]
+
+#theorem(title: "终极之梦")[
+  对于任意 $p in (0, +oo]$，$(L_p, d_p)$ 完备。
+]
+
+关于可分性
+
+#example[
+  $l_p$ 和 $L_p$ 在 $p in [1, +oo)$ 时都可分。
+]
 
 = Hilbert 空间
 Hilbert 空间就是*完备内积空间*。由于配备了性质良好的内积，Hilbert 空间的对偶空间和其本身等距同构（Riesz 表示定理），这和普通的赋范向量空间不同，后者的对偶空间通常不同构于本身。

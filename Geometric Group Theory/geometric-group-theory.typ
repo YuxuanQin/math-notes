@@ -66,7 +66,9 @@ Last compiled at #datetime.today().display() \
 
 This note is taken on the Nankai Logic Summer School 2025: _Gromov's Randomness & Model Theory of Groups_, lectured by Prof. Rizos Sklinos.
 
-I must admit that I almost know nothing about serious geometric group theory and large-scale geometry, and this note should not be used as a study matetial. I just written the things interested me down.
+I must admit that I almost know nothing about serious geometric group theory and large-scale geometry, and this note should not be used as a study matetial. I just written down things interested me.
+
+Reference: #link("https://loeh.app.uni-regensburg.de/ggt_book/ggt_book_draft.pdf")[Loeh's Notes].
 
 
 = Day 1
@@ -149,5 +151,22 @@ I must admit that I almost know nothing about serious geometric group theory and
   - The above action is properly-discontinuous, i.e., for compact $X subset "Cay"(G, A)$, the set ${g: g X inter X != emptyset}$ is finite.
   - The action is co-compact, i.e., $"Cay"(G, A) \/ G$ is compact.
   
-+ (*Svarč-Milnar Theorem*) See Löh's book.
++ (*Svarč-Milnar Theorem*) See Loeh's book.
 
++ For surface with genus $g >= 2$, its fundamental group $pi_1(Sigma_g)$ is hyperbolic, since
+
+  $ pi_1(Sigma_g) arrow.ccw_("nicely") HH^2 ("the hyperbolic plane"). $
+
+  It acts so nicely that the S-M theorem ensures $pi_1(Sigma_g)$ is hyperbolic.
+
++ Hyperbolicity is stable under finite index.
+
++ Finite groups and free groups are all hyperbolic.
+
++ A group $G$ is free $<==>$ It acts freely without inversions on a simplicial tree.
+  - ($==>$) If $G$ is free, then (assume $G = bold(F)S$)
+    $ G arrow.ccw "Cay"(G, S), $
+    where $"Cay"(G, S)$ is a simplicial tree.
+  - ($<==$) Use covering space theory. If $G arrow.ccw T$ nicely then we obtain a covering map $p: T -> T slash G$, which is universal, so $pi_1(T slash G) tilde.equiv G$. But $T slash G$ is a graph so $pi_1(T slash G)$ is free.
+
++ 
