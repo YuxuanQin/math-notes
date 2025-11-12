@@ -3,14 +3,13 @@
 ////////////////////////////////////////////////////////////////////
 #import "@preview/fletcher:0.5.3" as fletcher: diagram, node, edge  // Commutative diagram
 
-#import "@preview/theorion:0.4.0": *  // Theorem environment
+#import "@preview/theorion:0.4.1": *  // Theorem environment
 // #import cosmos.fancy: *
 #import cosmos.rainbow: *
 // #import cosmos.clouds: *
 #show: show-theorion
 
-#show link: underline
-
+#show link: set text(red)
 // Fonts
 #set text(lang: "zh", region: "cn")
 #set text(font: (
@@ -39,7 +38,7 @@
 #grid(
   columns: (1fr),
   align(center)[
-Author: 秦宇轩 (QIN Yuxuan) \
+著者: 秦宇轩 (QIN Yuxuan) \
 最后更新于 #datetime.today().display() \
   ],
 )
@@ -67,14 +66,32 @@ Author: 秦宇轩 (QIN Yuxuan) \
 
 这是一份泛函分析提纲（不是笔记！），仅包含我认为重要的结论。
 
-参考书目：许全华《泛函分析讲义》。
+参考书目：
++ 许全华《泛函分析讲义》。
++ 朱森《泛函分析讲义》（吉林大学内部教材）
 
 
 = 拓扑空间简介
 TODO
 
 = 完备度量空间
-TODO
+#theorem(title: "Arzela-Ascoli 定理")[
+  有很多版本，许全华上面的更深一些，不过这里只记录吉大讲义版本：
+
+  设 $(X, d)$ 是*紧度量空间*，$E subset C(X)$ 是一族连续函数，则 $E$ 列紧等价于以下两个条件同时成立：
+  - $E$ 中函数*一致有界*；
+  - $E$ 中函数*同等连续*，即对任意 $epsilon >0$，存在 $delta$ 使得
+    $ sup_(f in E) sup_(x, y in X\ d(x, y) < delta) |f(x) - f(y)| < epsilon. $
+]
+
+#theorem(title: "Montel 定理")[
+  设 $cal(F) := {f_n}_(n in NN) subset "Hol"(Omega)$ 是一列在区域 $Omega$ 上一致有界的解析函数，则对任意*完全位于* $Omega$ *内的有界区域* $D$（即 $overline(D) subset Omega$），$cal(F)$ 恒有子列在 $D$ 上一致收敛。
+]
+#proof[
+  要用 Arzela-Ascoli 定理。核心思想是利用 $D$ 的有界性得出 $overline(D)$ 的紧性，然后通过 Cauchy 积分公式得出 $cal(F)$ 在 $overline(D)$ 的某一个开覆盖上都同等连续，然后由紧性，可以抽有限次，得到一致收敛的子子子子子列。
+]
+
+如果需要举 “一致连续但不同等连续”…… 之类的例子，可以用这族函数 ${f_n (x) := (-1)^n + x^n}$，这族函数在 $C[-1/2, 1/2]$ 中既一致有界又同等连续，但在 $C[-2, 2]$ 中这两个性质都不具备。详见朱森例 1.72.
 
 = 赋范空间、连续线性映射
 #definition(title: "等价的范数")[
@@ -112,6 +129,11 @@ TODO
 #theorem(title: "Riesz 定理")[
   设 $(E, ||dot||)$ 是赋范空间，则 $E$ 有限维 $<==>$ 单位闭球 $overline(B)(0, 1)$ 紧。
 ]
+
+#proposition(title: [Banach 空间中的子空间有限维 $==>$ 闭])[
+]
+
+#proposition(title: [$E$ 是 Banach 空间 $<==>$ 绝对收敛级数都收敛])[]
 
 == 连续线性映射
 #theorem(title: [连续 $<==>$ 有界])[
@@ -313,6 +335,27 @@ $ p_Omega (x) := inf {lambda > 0: x/lambda in Omega} $
 
 ]
 
+= Baire 纲定理
+
+#theorem(title: "开映射定理")[
+若 $E, F$ 都是 Banach 空间，$u in cal(B)(E, F)$ 满足 $u(E) subset F$ *不是*贫集，则以下两论断成立：
+
++ 存在 $r > 0$ 使得 $r B_F subset u(B_E)$，进而得知 $u$ 满；
++ $u$ 开；
+]
+#corollary[
+满则自动开；
+]
+
+#theorem(title: "闭图像定理")[
+这是一个判断线性映射是否有界的定理。
+
+若 $E, F$ 是 Banach 空间，$u in cal(L)(E, F)$，则：$u$ 有界 $<==>$ $u(E)$ 闭。
+]
+#remark[
+有了这个定理，为证某些线性算子连续（也就是有界），只需要证明其像闭。
+]
+
 
 
 = Hahn-Banach 定理，弱拓扑、弱 $*$ 拓扑
@@ -329,4 +372,83 @@ $ p_Omega (x) := inf {lambda > 0: x/lambda in Omega} $
   这告诉我们 $||G|| <= ||g||$.
 
   注意到 $G|_A = g$，显然有 $||G|| >= ||g||$，所以最终得到了 $g$ 的等范数延拓 $G$，证毕。
+]
+
+利用 Hahn-Banach 定理，我们可以通过研究对偶空间来获得关于原空间的信息，具体的结论如下：
+
+#theorem(title: "赋范空间到双对偶空间的等距嵌入")[
+  设 $E$ 是赋范空间，则对任意 $x in E$，有
+  $ ||x|| = sup_(f in E^*\ ||f||<=1) |f(x)|. $
+]
+#corollary[
+  上述定理实际上在说下面这个映射是等距嵌入：
+  $ E -> E^(**), x |-> ["ev"_x: f |-> f(x)]. $
+  
+  #proof[只需要观察到 $"ev"_x: E^* -> KK$ 满足
+  $ ||"ev"_x|| = sup_(f in E^*\ ||f|| <= 1) |"ev"_x (f)| $
+  即可。]
+
+  这里，固定 $x in E$，则对于任意 $f in E^*$，有 $|"ev"_x (f)| <= ||f|| dot ||x||$，这意味着 $"ev"_x$ 的确是*有界*线性泛函，故而也连续，即 $"ev"_x in E^(**)$ 是良定义的。
+]
+
+另外几个结论，可以作为 Hahn-Banach 定理应用的实例：
+
+#proposition[
+  对于任意非零元 $x_0 in E$，存在 $f in E^*$ 使得 $||f|| = 1$，且
+  $ f(x_0) = ||x_0|| $
+]
+#proof[
+  定义 $phi: KK x_0 -> KK, k x_0 |-> k ||x_0||$，这显然线性，且 $||phi|| = 1$，$phi(x_0) = ||x_0||$，则根据 Hahn-Banach 定理，存在 $phi$ 的等范数延拓 $Phi in E^*$，容易验证这个 $Phi$ 满足要求。
+]
+
+#proposition(title: "隔离")[
+  设 $M$ 是赋范线性空间 $E$ 的真闭子空间，$x in E \\ M$，则存在 $f in E^*$，使得以下条件同时成立：
+  - $f(x) = 1$;
+  - $f(M) = bold(0)$;
+]<isolation>
+
+#proof[
+  定义 $f: M plus.circle KK x -> KK, (m + k x) |-> k$, 这显然线性，至于有界性，只需注意
+  $ ||f|| &= sup_(m, k) {|f(m + k x) / (||m + k x||) |} \
+          &= sup_(m, k) {1/(||x + m / k ||)} \
+          &= 1/("dist"(x, M)).
+  $
+  因 $M$ 闭，知 $||f||$ 有界。
+
+  利用 Hahn-Banach 定理，立刻得到 $f$ 的延拓，即为所求。
+]
+
+利用上面的命题，我们可得如下结果，宗旨仍是通过研究对偶空间获得原空间的信息：
+
+#theorem(title: [稠密 $<==>$ 话语权])[
+  设 $M subset E$ 是赋范线性空间的子空间，则以下两论断等价：
+  
+  + $M$ 在 $E$ 中稠密；
+  + 对任意 $f in E^*$，有 $f|_M = 0$ 蕴含 $f = 0$.
+]
+
+#theorem(title: [$X^*$ 可分 $==> X$ 可分])[
+设 $X$ 是 Banach 空间，则 $X^*$ 可分 $==> X$ 可分。
+]<seperation>
+#proof[
+设 $cal(F) = {f_n}_(n in NN) subset X^*$ 是一个可数稠密子集。按范数定义，存在一列 ${x_n}_(n in NN) subset X$ 使得
+$ ||f_n (x_n)|| >= (||f_n||)/2. $
+
+令 $E := {x_n}$，我们将证明 $E$ 是稠密的，从而证明 $X$ 可分。
+
+下面定义 $E$ 的闭张开 $or E := overline("span" E)$，按定义，$E$ 稠密 $<==> or E = X$。
+
+反证法：若 $or E$ 真包含于 $X$，则根据@isolation，我们得到了 $f in X^*$，且其满足
+- $||f|| = 1$；
+- $f(or E) = 0$. 
+
+此时，可以利用 $cal(F)$ 了。由假设知存在 ${n_k}$ 使得 $f_(n_k) -> f$，这意味着 $||f_(n_k) - f|| -> 0$。因 $||f|| = 1$，进一步有 $f_(n_k)/(||f_(n_k)||) -> f$，但
+$ ||f_(n_k)/(||f_(n_k)||) - f|| > ||(f_(n_k)(x_(n_k)))/(||f_(n_k)||) - f(x_(n_k))|| = ||(f_(n_k)(x_(n_k)))/(||f_(n_k)||) - 0||, $
+
+最终，由 $x_(n_k)$ 的定义，知最后的表达式 $> 1/2$，这和我们刚才得到的结论矛盾。
+
+]
+#remark[
+如果 $X$ 自反，则 $X^*$ 可分 $<==> X$ 可分，因为此时 $X^(**) = X$，然后就可以用@seperation。
+
 ]
