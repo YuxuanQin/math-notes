@@ -431,7 +431,7 @@ But why do people invent different-in-form but same-in-essential theories?
 
 The reason is all theories sucks in some aspects, but for different purpose one can use appropriate theories. And that's it! The simplicial homology is rather easy for computation while very difficult for proof, and the singular one is exactly in the opposite.
 
-== Digression: Terminology
+== Digression on Terminology
 Let $(C_bullet.op, partial_bullet.op)$ be a general chain complex, we know that the elements in $ker partial$ is called *cycles* and those in $im partial$ is called *boundaries*, but why?
 
 Well, those wierd terms all come from algebraic topology.
@@ -454,6 +454,59 @@ Furthur, computation also shows $ker partial_1 = chevron.l e_01 + e_12 - e_02 ch
 As for "boundaries", note that $partial_1 e_01 = v_1 - v_0$ which is just a combination of boundaries of $e_01$.
 
 I think that's the etymology of "cycle" and "boundary".
+
+== The long exact sequence lemma
+Let $X$ be a space $A$ be a subspace of $X$. Denote the quotient map by $q: X -> X slash A$ and the inclusion by $iota: A -> X$, then we have the following long exact sequence:
+
+#align(center, diagram({
+   node((-2, 0), [$... --> tilde(H)_(n + 1) (A)$])
+   node((0, 0), [$tilde(H)_(n + 1) (X)$])
+   node((2, 0), [$tilde(H)_(n + 1) (X slash A)$])
+   node((-2, 1), [$tilde(H)_n (A)$])
+   node((0, 1), [$tilde(H)_n (X)$])
+   node((2, 1), [$tilde(H)_n (X slash A)$])
+   node((-2, 2), [$tilde(H)_(n - 1) (A)$])
+   node((0, 2), [$tilde(H)_(n - 1) (X)$])
+   node((2, 2), [$tilde(H)_(n - 1) (X slash A) --> ...$])
+   edge((-2, 0), (0, 0), [$iota_*$], label-side: center, "->")
+   edge((0, 0), (2, 0), [$q_*$], label-side: center, "->")
+   edge((2, 0), (-2, 1), [$partial$], label-side: center, "->")
+   edge((-2, 1), (0, 1), [$iota_*$], label-side: center, "->")
+   edge((0, 1), (2, 1), [$q_*$], label-side: center, "->")
+   edge((2, 1), (-2, 2), [$partial$], label-side: center, "->")
+   edge((-2, 2), (0, 2), [$iota_*$], label-side: center, "->")
+   edge((0, 2), (2, 2), [$q_*$], label-side: center, "->")
+}))
+
+where $tilde(H)$ stands for the reduced singular homology.
+
+TODO: what is $partial$?
+
+== Compute $tilde(H)_n (S^m)$
+In this section we use the long exact sequence lemma for reduced singular homology groups to determine the homology groups of spheres:
+
+$ tilde(H)_n (S^m) = cases(
+  ZZ ", " n = m,
+  0 ", otherwise",
+). $
+
+Our map chain in $bold("Top")$ is $SS^(m - 1) arrow.hook.r DD^m ->> SS^m$, by the lemma, the following sequence is exact:
+
+#align(center, diagram({
+   node((0, 0), [$tilde(H)_n (DD^m)$])
+   node((2, 0), [$tilde(H)_n (SS^m)$])
+   node((-2, 1), [$tilde(H)_(n - 1) (SS^(m - 1))$])
+   node((0, 1), [$tilde(H)_(n - 1) (DD^m)$])
+   edge((0, 0), (2, 0), "->")
+   edge((2, 0), (-2, 1), [$partial$], label-side: center, "->")
+   edge((-2, 1), (0, 1), "->")
+}))
+
+Note that $H_n (DD^m) = 0$ for all $n, m in ZZ$ since $DD^m$ is contractible, and thus we know the $partial$ here is actually an isomorphism, i.e. $tilde(H)_n (S^m) tilde.equiv tilde(H)_(n - 1) (S^(m - 1))$.
+
+And we know the reduced singular homology groups $tilde(H)_n (SS^0)$ of $SS^(0) = {bullet.op quad bullet.op}$ is $ZZ$ when $n = 0$ and $0$ otherwise. So by induction, we are done.
+
+[Massey] provides another methods to determine $tilde(H)_n (SS^n)$ by the Excision lemma below. (It is cubersome though)
 
 == Excision Lemma
 The excision lemma is a powerful tool for computing homology groups.
