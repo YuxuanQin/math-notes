@@ -1,0 +1,32 @@
+massey:
+  type: Book
+  title: A Basic Course in Algebraic Topology
+  author: William S. Massey
+  publisher: Springer New York, NY
+  date: 1991
+  serial-number:
+    doi: 10.1007/978-1-4939-9063-4
+    isbn: 978-0-387-97430-9
+
+may:
+  type: Book
+  title: A Concise Course in Algebraic Topology
+  author: J. P. May
+  url: https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf
+
+loeh:
+  type: Book
+  title: "Algebraic Topology: An introductory course"
+  author: Clara Löh
+  date: 2021
+  url: https://loeh.app.uni-regensburg.de/teaching/topologie1_ws2122/lecture_notes.pdf
+
+wedhorn:
+  type: Book
+  title: Manifolds, Sheaves, and Cohomology
+  author: Torsten Wedhorn
+  publisher: Springer Spektrum Wiesbaden
+  date: 2016
+  serial-number:
+    doi: 10.1007/978-3-658-10633-1
+    isbn: 978-3-658-10632-4

@@ -37,3 +37,19 @@ Reasons:
   + For any non-constant polynomial $f in overline(FF)_p$, there exist a natural number $k$ such that all coefficients of it are in $FF_(p^k!)$, then the splitting field of $f$ is a finite extension of $FF_(p^k!)$ and thus is also finite with characteristic $p$ in form $FF_(p^m)$ for some naturals $m$, so its splitting field is contained in $(FF)_(p^(m!))$ by point 2, thus finally its splitting field is contained in $overline(FF)_p$.
 
 _Ref_. #link("https://planetmath.org/algebraicclosureofafinitefield")[_algebraic closure of a finite field_. Planetmath. Ver. 2025-07-09].
+
+= The free functor from $bold("Set")$ to $bold("Mod")_R$
+For a ring $R$, the demanded functor is
+$ R times.o_ZZ ZZ[-]: bold("Set" -> bold("Mod")_R), $
+where
+- $ZZ[-]: bold("Set") -> bold("Ab") := bold("Mod")_ZZ$ is the free abelian group functor;
+- $times.o_ZZ$ is the common tensor product on $bold("Ab")$.
+
+This is because adjoint functors are stable under composition, and $R times.o_ZZ -: bold("Ab") -> bold("Mod")_R$ is the free functor from abelian groups to $R$-modules.
+
+Further, note that $R times.o_R M tilde.equiv M$ for any $R$-module $M$ (this may be unrelated to the main property we want, but it justify it when $R = ZZ$).
+
+This result is used to define homology theories with coefficients different from $ZZ$, see, eg. Loeh's note.
+
+
+

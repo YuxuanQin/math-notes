@@ -96,7 +96,7 @@ The main importance of deformation retract is embodied in the following theorem:
 #proof[
   Suppose the relative homotopy is witness by $h$.
 
-  Then by the proposition in Section 4, Chapter 1 of [May], we need only to prove that $gamma [h(a, -)] = "id"$, but by the definition of relative homotopy, $h(a, -) equiv a$ so the equation is tautology.
+  Then by the proposition in Section 4, Chapter 1 of @may, we need only to prove that $gamma [h(a, -)] = "id"$, but by the definition of relative homotopy, $h(a, -) equiv a$ so the equation is tautology.
 ]
 #remark[
   We can prove it directly, first we need a lemma: if $f, g: X -> Y$ is relative homotopic respect to $x_0 in X$, i.e. there exists a homotopy $h: f tilde.eq g "rel" {x_0}$, we claim that $f_* = g_*: pi_1(X, x_0) -> pi_1(Y, y_0)$ where $y_0 := f(x_0) = g(x_0)$.
@@ -127,7 +127,7 @@ There are (at least) two definitions of covering spaces over a given base topolo
   - *The "new" fashion*: A covering space over $X$ is a morphism $p: E -> X$ such that: for all $x in X$, there exists an open neihgbourhood $x in U_x$ such that $p^(-1)(U_x) tilde.equiv U_x times p^(-1)(x)$, where $p^(-1)(x)$ equipped with discrete topology.
   - *The "old" fashion*: A covering space over $X$ is a morphism $p: E -> X$ such that: for all $x in X$, there exists an _path-connected_ open neihgbourhood $U_x$ such that each path-connected component of $p^(-1)(U_x)$ is homeomorphic to $U_x$ via $p$.
 
-The new fashion can be found in [Wedhorn], [Löh], and #link("https://ncatlab.org/nlab/show/covering+space")[_covering space_ on nLab]; while the old one can be found in [Massey] and [May].
+The new fashion can be found in @wedhorn, @loeh, and #link("https://ncatlab.org/nlab/show/covering+space")[_covering space_ on nLab]; while the old one can be found in @massey and @may.
 
 In short: Covering space is a locally trivial bundle with discrete fiber.
 
@@ -365,7 +365,7 @@ $ pi_1(RR P^n) := cases(
 
 
 = Basic notions in Singular Homology
-For motivations, see [Massey].
+For motivations, see @massey.
 
 == Why are there so many different "homology"?
 I have met so many "homology" so far, such as *singular* homology and *simplicial* homology, but what are they indeed?
@@ -425,7 +425,12 @@ We find the scheme of definitions of different homology theories can be summed u
 And finally we obtain a homology theory of spaces, denoted by $H^alpha$.
 
 == $H^"Simp" = H^"Sing"$
-Yes, they are the same (I need that meme). TODO: proof.
+Yes, they are the same. TODO: proof.
+#figure(
+  image("./smae.jpg", width: 40%),
+  caption: [They are the same!],
+)
+
 
 But why do people invent different-in-form but same-in-essential theories?
 
@@ -480,6 +485,12 @@ Let $X$ be a space $A$ be a subspace of $X$. Denote the quotient map by $q: X ->
 
 where $tilde(H)$ stands for the reduced singular homology.
 
+#proof[
+We first obtain a short exact sequence of chain complex: $0 -> "Sing"_bullet.op (A) arrow.hook.r "Sing"_bullet.op (X) ->> "Sing"_bullet.op (X slash A)$, which can be verified quickly.
+
+The rest of the proof can be found in [Miller] Theorem 9.1.
+]
+
 TODO: what is $partial$?
 
 == Compute $tilde(H)_n (S^m)$
@@ -490,7 +501,7 @@ $ tilde(H)_n (S^m) = cases(
   0 ", otherwise",
 ). $
 
-Our map chain in $bold("Top")$ is $SS^(m - 1) arrow.hook.r DD^m ->> SS^m$, by the lemma, the following sequence is exact:
+Our map chain in $bold("Top")$ is $SS^(m - 1) arrow.hook.r DD^m ->> SS^m = DD^m slash SS^(m - 1)$, by the lemma, the following sequence is exact:
 
 #align(center, diagram({
    node((0, 0), [$tilde(H)_n (DD^m)$])
@@ -506,24 +517,27 @@ Note that $H_n (DD^m) = 0$ for all $n, m in ZZ$ since $DD^m$ is contractible, an
 
 And we know the reduced singular homology groups $tilde(H)_n (SS^0)$ of $SS^(0) = {bullet.op quad bullet.op}$ is $ZZ$ when $n = 0$ and $0$ otherwise. So by induction, we are done.
 
-[Massey] provides another methods to determine $tilde(H)_n (SS^n)$ by the Excision lemma below. (It is cubersome though)
+@massey provides another methods to determine $tilde(H)_n (SS^n)$ by the Excision lemma below. (It is cubersome though)
 
 == Excision Lemma
 The excision lemma is a powerful tool for computing homology groups.
+
 
 #theorem(title: "Homology is invariant under excision")[
   For a space $X$, the homology group is invariant under tame excision, formally, if $A subset X$ is a subspace and $W subset A$, then
   $ H_n (X, A) tilde.eq H_n (X - W, A - W), $
   provided that $W$ is "totally" contained in $A$, to be precise, $"cl"_X (W) subset "int"_X (A).$
-]
+]<excision>
 
-We can use this theorem to compute $H_n (S^k)$. (TODO: digest the computation in [Massey])
+We can use this theorem to compute $H_n (S^k)$. (TODO: digest the computation in @massey)
 
 To prove this result, we need a construction called "subdivision", which is used to restrict our attention of singular cubes to a "smaller" ones without losing any information.
 
 For example, if we are working in a metric space, then subdivision enables us to just consider cubes with diameter less than a given positive number, and the homology groups of those small cubes are isomorphic to the homology groups of all cubes.
 
 To formalize what is "small" in an arbitrary topological space, we need the following definition:
+
+TODO: Digest the more morden definition of small, i.e. locaility, see, eg. Haynes Miller's lecture 11.
 
 #definition(title: "Small cube")[
   Let $cal(U) := {U_lambda}$ be a family of subsets in $X$ such that ${"int"_X (U_lambda)}$ covers $X$.
@@ -535,8 +549,50 @@ To formalize what is "small" in an arbitrary topological space, we need the foll
   The trivial $n$-cube $T$ which sends all things to a single point is small of any order.
 ]
 
+=== Application
+Excision is useful to compute homology groups with the long exact sequence.
+
+_Ref_. Anthony Bosman's lectures on Algebraic Topology, lecture 15, `47:04`, availabe on #link("https://www.youtube.com/playlist?list=PLOROtRhtegr7DmeMyFxfKxsljAVsAn_X4")[Youtube] and #link("https://www.bilibili.com/video/BV1wi4y1z7KT?t=2823.0&p=16")[哔哩哔哩].
+
+#theorem(title: [$RR^n tilde.equiv RR^m <==> n = m$])[
+Let $U subset RR^n$ and $V subset RR^m$ be two opens, if they are isomorphic, then $n = m$.
+]
+#proof[
+This is really a good application of the Excision lemma. The main idea is use the homology groups of spheres. Since if there the homology groups of two spheres coincides on every level, these two spheres are forced to equal, which means their dimensions are the same.
+
+We agree: in the following proof, $H_n (-)$ stands for the _reduced_ homology group, for short. We prove it in x steps:
+
+/ Step 1 (Excise what?): To make use of $H_k (SS^p)$, we need first make something homotopic to $SS^p$, and $RR^(p + 1) - {"pt"}$ comes into mind. By excision lemma $H_n (U, U - {"pt"}) tilde.equiv H_n (RR^n, RR^n - {"pt"})$ where we take $X = RR^n, A = RR^n - {"pt"}$ and $W = U$ in @excision.
+
+/ Step 2 (Use the long exact sequence): By the long exact sequence lemma, the following sequence is exact for all $k in ZZ$:
+  #align(center, diagram({
+     node((0, 0), [$H_k (RR^n)$])
+     node((2, 0), [$H_k (RR^n, RR^n - {"pt"})$])
+     node((-2, 1), [$H_(k - 1) (RR^n - {"pt"})$])
+     node((0, 1), [$H_(k - 1) (RR^n)$])
+     node((-2, 0), text(color.hsl(35deg, 18, 153))[$H_k (RR^n - {"pt"})$])
+     node((2, 1), text(color.hsl(35deg, 18, 153))[$H_(k - 1) (RR^n, RR^n - {"pt"})$])
+     node((-2, 3), [$H_(k - 1) (SS^(n - 1))$])
+     node((0, 3), [$0$])
+     node((2, -2), [$H_k (U, U - {"pt"})$])
+     node((0, -2), [$0$])
+     edge((0, 0), (2, 0), "->")
+     edge((2, 0), (-2, 1), [$partial$], label-side: center, "->")
+     edge((-2, 1), (0, 1), "->")
+     edge((-2, 0), (0, 0), "->", stroke: color.hsl(35deg, 18, 153))
+     edge((0, 1), (2, 1), "->", stroke: color.hsl(35deg, 18, 153))
+     edge((-2, 1), (-2, 3), [$RR^n - {"pt"} tilde.eq SS^(n - 1)$], label-side: right, "=")
+     edge((0, 1), (0, 3), "=")
+     edge((2, 0), (2, -2), [$"Excision"$], label-side: right, "=")
+     edge((0, 0), (0, -2), "=")
+  }))
+  From the diagram, we observe that $partial$ is actually an isomorphism. So $H_k (U, U - {"pt"}) tilde.equiv H_(k - 1) (SS^(n - 1))$, similarly we have $H_k (V, V - {"pt"}) tilde.equiv H_(k - 1) (SS^(m - 1))$.
+
+/ Step 3 (Homology of spheres): By assumption, $U tilde.equiv V$, so the two relative homology groups $H_k (U, U - {"pt"})$ and $H_k (V, V - {"pt"})$ are isomorphic, which means $H_k (SS^(n - 1)) tilde.equiv H_k (SS^(m - 1))$ for all $k$ by works in step 2. Finally, thanks to our computation on the homology groups of spheres, this immediately implies $n = m$, we are done.
+]
+
 = (Co)fibration
-TODO: Check the proofs in [May].
+TODO: Check the proofs in @may.
 
 Cofibrations are good inclusions, in the sense that if $i: A arrow.r.hook X$ is a cofibration and $A$ is contractible, then the quotient map $q: X -> X slash A$ is a homotopy equivalence. (TODO: counter-examples when $i$ is not a cofibration)
 
@@ -634,4 +690,4 @@ And $r$ is a homotopy equivalence, $(iota compose "inl"_0)$ is a cofibration.
   TODO
 ]
 
-
+#bibliography("bib.yaml", style: "ieee")
