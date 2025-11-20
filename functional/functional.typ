@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////
 ///////////////////////////  Settings  ////////////////////////////
 ////////////////////////////////////////////////////////////////////
-#import "@preview/fletcher:0.5.3" as fletcher: diagram, node, edge  // Commutative diagram
+#import "@preview/fletcher:0.5.5" as fletcher: diagram, node, edge  // Commutative diagram
 
 #import "@preview/theorion:0.4.1": *  // Theorem environment
 // #import cosmos.fancy: *
@@ -25,6 +25,8 @@
 
 // Set numbering
 #set heading(numbering: "1.")
+
+#let iso = symbol("≅")
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////  Title  ///////////////////////////////
@@ -408,7 +410,7 @@ $ p_Omega (x) := inf {lambda > 0: x/lambda in Omega} $
 ]<isolation>
 
 #proof[
-  定义 $f: M plus.circle KK x -> KK, (m + k x) |-> k$, 这显然线性，至于有界性，只需注意
+  定义 $f: M plus.o KK x -> KK, (m + k x) |-> k$, 这显然线性，至于有界性，只需注意
   $ ||f|| &= sup_(m, k) {|f(m + k x) / (||m + k x||) |} \
           &= sup_(m, k) {1/(||x + m / k ||)} \
           &= 1/("dist"(x, M)).
@@ -427,9 +429,34 @@ $ p_Omega (x) := inf {lambda > 0: x/lambda in Omega} $
   + 对任意 $f in E^*$，有 $f|_M = 0$ 蕴含 $f = 0$.
 ]
 
+#definition(title: "零化子")[
+我们顺势引入 “零化子”（annihilator） 的概念：对赋范线性空间 $E$ 及其非空子空间 $M subset E$，定义其零化子为
+  $ "ann"_E (M) := M^0 := {f in E^* : f|_M = 0}. $
+]<ann>
+
+#remark[
+有了这个定义，本定理可表述成：$M subset E$ 稠密 $<==> "ann"_E (M) = 0$.  
+
+也就是说，零化子刻画了子空间的*非稠密程度*，譬如对于最不稠密的子空间 ${0}$，我们有 $"ann"_E ({0}) = E^*$，是全空间，所以 ${0}$ 必定非稠密。
+]
+
 #theorem(title: [$X^*$ 可分 $==> X$ 可分])[
 设 $X$ 是 Banach 空间，则 $X^*$ 可分 $==> X$ 可分。
 ]<seperation>
+
+这个定理可以用来证明如下结果：
+
+#theorem(title: [Banach 空间 $E$ 自反 $<==>$ 它的对偶也自反])[
+  如题
+]<dual>
+#proof[
+- ($==>$) 容易；
+- ($<==$) 设 $E^*$ 自反，即 $E^* = (E^*)^(**) = (E^(**))^*$，为证 $E = E^(**)$，可考虑证明 $iota(E) subset E^(**)$ 稠密且闭，这在任何拓扑空间中都蕴含 $iota(E) = E^(**)$，其中 $iota$ 是典范嵌入。
+  - 根据@seperation，为证 $E subset E^(**)$ 稠密，只需证明对任意 $f in (E^(**))^*$，有 $f|_E = 0 ==> f = 0$。如果确有 $f|_E = 0$，则因 $E^* = (E^(**))^*$，得到 $f = 0$，所以 $E$ 在 $E^(**)$ 中稠密；
+  - 因为 $E$ 是 Banach 空间，$E$ 在 $E^(**)$ 中闭。
+]
+
+
 #proof[
 设 $cal(F) = {f_n}_(n in NN) subset X^*$ 是一个可数稠密子集。按范数定义，存在一列 ${x_n}_(n in NN) subset X$ 使得
 $ ||f_n (x_n)|| >= (||f_n||)/2. $
@@ -446,9 +473,170 @@ $ ||f_n (x_n)|| >= (||f_n||)/2. $
 $ ||f_(n_k)/(||f_(n_k)||) - f|| > ||(f_(n_k)(x_(n_k)))/(||f_(n_k)||) - f(x_(n_k))|| = ||(f_(n_k)(x_(n_k)))/(||f_(n_k)||) - 0||, $
 
 最终，由 $x_(n_k)$ 的定义，知最后的表达式 $> 1/2$，这和我们刚才得到的结论矛盾。
-
 ]
+
 #remark[
 如果 $X$ 自反，则 $X^*$ 可分 $<==> X$ 可分，因为此时 $X^(**) = X$，然后就可以用@seperation。
-
 ]
+
+关于自反空间，我们还有如下结果：
+#theorem(title: "Pettis 定理")[
+  自反性是闭可遗传的：自反 Banach 空间 $X$ 的闭子空间 $M$ 也是自反的。
+]<pettis>
+
+= Banach 空间的对偶理论
+在本章中，我们研究对偶理论，所用符号如次：
++ $iota: E -> E^(**)$ 是典范等距嵌入，$iota(x)$ 简记为 $hat(x)$；
++ 设 $E$ 是 Banach 空间，定义标准配对 $chevron.l -, - chevron.r: X^* times X -> FF$ 为
+  $ chevron.l x^*, x chevron.r:= x^*(x), $
+  这个运算显然是双线性的；
+
+== 共轭算子
+Banach 空间的共轭算子推广了 Hilbert 空间的概念，核心思想是用标准配对模拟内积
+
+#theorem(title: "共轭算子")[
+对赋范空间 $E$ 和 $F$，设 $u in cal(B)(E, F)$，则断言存在唯一的 $u^* in cal(B)(F^*, E^*)$ 满足：
++ $chevron.l u^*(f^*), x chevron.r = chevron.l f^*, u(x) chevron.r.$
++ $||u^*|| = ||u||$；
+]
+
+#proof[
++ 存在性：直接定义 $u^*$ 为拉回 $u^*(f^*) := f^* compose u$ 即可；至于连续性，注意到
+  $ ||u^*(f^*)|| = ||f^* compose u|| <= ||f^*|| ||u|| $
+  上式不等式乃是熟知的一般性结果；
++ 唯一性简单；
++ 至于保范数，要用到 Hahn-Banach 定理，有点啰嗦，详见许全华定理 9.1.1。
+]
+
+#remark[
+保范性告诉我们 $(-)^*: cal(B)(E, F) -> cal(B)(F^*, E^*)$ 是线性等距嵌入。（等距映射都是单射，所以叫嵌入）
+]
+
+当 $E, F$ 均为 Banach 空间时，一切都变得更美妙了：
+
+#theorem(title: [$u$ 可逆 $<==> u^*$ 可逆])[
+当 $E, F$ 均为 Banach 空间时，题目成立。
+]
+#proof[
+见吉大讲义命题 2.172。
+]
+
+
+== 对零化子的研究
+前面的@ann 已经定义过零化子，现在来研究零化子的一般性质（以及为什么要研究这种东西）。本小节中，我们假设 $X$ 是赋范线性空间，$E subset X$ 非空。
+
+Hahn-Banach 定理告诉我们，对于任意 $f in E^*$，我们可以把他保范延拓成 $tilde(f) in X^*$，同时，通过取限制，对于任意 $tilde(f) in X^*$，我们可以得到一个 $tilde(f)|_E in E^*$，也就是说，我们得到下图：
+
+#align(center, diagram({
+   node((-1, 0), [$E^*$])
+   node((1, 0), [$X^*$])
+   edge((-1, 0), (1, 0), [$"Hahn-Banach"$], label-side: left, "->", bend: 36deg)
+   edge((1, 0), (-1, 0), [$"Restriction"$], label-side: left, "->", bend: 36deg)
+}))
+
+所以，他们之间到底是什么关系？（*警告*：虽然我们都很想，但是这两个 “对应” 的复合不会是恒同，因为 Hahn-Banach 所提供的延拓不唯一。）
+
+#proposition[
+$E^0 = (overline(E))^0$ 是 $X^*$ 的子空间，理由：
+$ E^0 &= {f: f|_E = 0}, \
+      &= {f: E subset ker f}, \
+      &= {f: overline(E) subset ker f}, " since" f "is continuous" \
+      &= overline(E)^0. $
+]
+
+下面定义零化子：
+
+#definition(title: "零化子")[
+对赋范线性空间 $E$ 及其非空子空间 $M subset E$，定义其零化子为
+  $ "ann"_E (M) := E^perp := M^0 := {f in E^* : f|_M = 0}. $
+是的，第一个符号是我自创的，第二个符号是许全华标准，第三个符号是吉大标准。
+]
+
+#definition[
+对于 $F subset X^*$ 非空，定义它的零化子（或称*预零化子*、下零化子）为
+$ "ann"^*_X (F) := F_perp := attach(F, tl: 0) := inter.big_(f in F) ker f. $
+
+请注意：现在对于对偶空间 $E^*$，我们有零化子和下零化子两种概念，一般来说，它们是不一样的，即 $"ann"_(X^*) != "ann"^*_X$，TODO：例子？
+]
+
+总结一下，我们现在有两种零化子：
+#align(center, diagram({
+   node((-1, 0), [$"sub"(X)$])
+   node((1, 0), [$"sub"(X^*)$])
+   edge((-1, 0), (1, 0), [$"ann"_X (-)$], label-side: left, "->", bend: 36deg)
+   edge((1, 0), (-1, 0), [$"ann"^*_X (-)$], label-side: left, "->", bend: 36deg)
+}))
+
+这两个映射的方向正好相反，所以我们好奇如果复合它们，会发生什么。
+
+#lemma(title: "两种零化子之间的关系")[
+设有赋范线性空间 $X$，$iota: X -> X^(**)$ 是典范等距嵌入，$M subset X$ 和 $G subset X^*$ 均是闭子空间，则
+  + $M = "ann"^*_X ("ann"_X (M))$；
+  + $G subset "ann"_X ("ann"^*_X (G))$；
+  + 如 $X$ 自反，则 2 取等；
+]
+
+#proof[
++ 由 Hahn-Banach 定理，$x in.not M <==> exists f in X^*, f|_M = 0 and f(x) != 0$，则取否有
+  $ x in M <==> (f in "ann"_X (M) => f(x) = 0), $
+  右边就是说 $x in "ann"^*_X ("ann"_X (M))$.
+
++ 类似；
++ 类似；
+]
+
+== 商空间和子空间的对偶空间
+零化子能帮助我们研究*闭子空间* $F^*$ 和 $E^*$ 之间的关系。
+
+在开始之前，我们必须定义商空间
+
+#definition(title: "商空间")[
+设 $F subset E$ 是 *闭子空间*，则可在商空间 $E slash F$ 上定义范数，对于 $[x] in E slash F$，定义：
+$ ||[x]|| := inf {||y||: y ~ x} = inf {||x + e||: e in E}. $
+
+闭子空间对极限封闭，这样才能保证 $||[x]|| = 0 <==> [x] = 0$.
+]
+
+#theorem(title: "对偶定理")[
+设 $F subset E$ 是 *闭子空间*，则
++ $(E slash F)^* tilde.equiv F^perp$；
++ $F^* tilde.equiv E slash F^perp$；
+]
+
+这个定理可以用来证明一些维数相关的东西，譬如这题：
+
+#proposition[
+  设 $X$ 是赋范线性空间，$E = chevron.l x_1,..., x_n chevron.r subset X$ 是 $n$ 维子空间，则 $"codim" E^perp = n$.
+]
+
+#proof[
+按定义，$"codim" E^perp = dim (X^* slash E^perp)$，由对偶定理，这等于 $dim E^* = n$（请注意有限维子空间都是闭的）
+]
+
+另一个用到对偶定理的结果（和@pettis 对照着看）：
+
+#proposition[
+  设 $X$ 是自反 Banach 空间，$M subset X$ 是闭子空间，则 $X slash M$ 也是自反空间。
+]
+
+#proof[
+因 $M$ 闭，由对偶定理 $(X slash M)^* iso M^perp subset X^*$.
+
+另外，熟知 $X^*$ 也是 Banach 空间，又 $M^perp subset X^*$ 是闭子空间，则 $M$ 也是 Banach 空间。
+
+由@dual，$X^*$ 也自反。最终，由 Pettis 定理（@pettis），得到 $M^perp$ 也自反。
+
+由于同构，$(X slash M)^*$ 是 Banach 空间且自反，此时再用@dual，得到 $X slash M$ 也自反！
+]
+
+#remark[
+这题很不错，我们总共用到了如下结论：
+
++ Banach 空间的闭子空间依然是 Banach 空间；
++ Banach 空间自反 $<==>$ 它的对偶空间也自反；
++ Banach 空间的自反性是闭传递的，也就是说，自反 Banach 空间的闭子空间依然是自反的。
+
+本题的结论可以说加强了上述第三点：自反性是闭商传递的！
+]
+
+

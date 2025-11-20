@@ -26,6 +26,19 @@
 // Set numbering
 #set heading(numbering: "1.")
 
+// Self Defined Symbols
+#let iso = symbol("≅")
+#let hp = symbol("≃")
+#let mset = $bold("Set")$
+#let sset = $bold("sSet")$
+#let mgrp = $bold("Grp")$
+#let mtop = $bold("Top")$
+#let simp = $"Simp"$
+#let sing = $"Sing"$
+#let inj  = $arrow.hook.r$
+#let ch   = $"Ch"$
+
+
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////  Title  ///////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -73,7 +86,7 @@ We denote the concatenation of two path $g_12: x_1 ~~> x_2$ and $g_23: x_2 ~~> x
 
 = Basic Definitions
 == Relative Homotopy
-Two morphisms $f$ and $g$ from topology space $X$ to $Y$ is called _homotopic relative to $A$_ for $A subset X$, denoted as $f tilde.eq g "rel" A$, if there exists a morphism $h: X times I -> Y$ such that
+Two morphisms $f$ and $g$ from topology space $X$ to $Y$ is called _homotopic relative to $A$_ for $A subset X$, denoted as $f hp g "rel" A$, if there exists a morphism $h: X times I -> Y$ such that
   - $h(x, 0) = f(x)$ for all $x in X$;
   - $h(x, 1) = g(x)$ for all $x in X$;
   - $h(a, t) = f(a) = g(a)$ for all $a in A$, $t in I$.
@@ -82,11 +95,11 @@ _Remark_. So the classical homotopic relation between two paths with same end po
 
 == Retract and Deformation Retract
 - A subspace $i: A arrow.r.hook X$ is called a _retract_ of $X$ if $i$ admits a left inverse $r: X ->> A$, i.e. $r compose i = "id"_A$;
-- It is called a _deformation retract_ of $X$ if $i compose r tilde.eq "id"_X "rel" A$.
+- It is called a _deformation retract_ of $X$ if $i compose r hp "id"_X "rel" A$.
 
-_Remark_. Note that $r compose i = "id"_A$ is equivalent to $r compose i tilde.eq "id"_A "rel" A$ -- so the condition of deformation retract is rather natural -- indeed:
+_Remark_. Note that $r compose i = "id"_A$ is equivalent to $r compose i hp "id"_A "rel" A$ -- so the condition of deformation retract is rather natural -- indeed:
   - If $r compose i = "id"_A$, then define the homotopy $h(x, t) = r compose i (x) = "id"_A (x) = x$, which is of course continuous in both $x$ and $t$;
-  - If $r compose i tilde.eq "id"_A "rel" A$, then by definition there exists a homotopy $h: A times I -> A$ such that $h(a, t) = r compose i (a) = "id"_A (a)$, implies that $r compose i = "id"_A$.
+  - If $r compose i hp "id"_A "rel" A$, then by definition there exists a homotopy $h: A times I -> A$ such that $h(a, t) = r compose i (a) = "id"_A (a)$, implies that $r compose i = "id"_A$.
 
 The main importance of deformation retract is embodied in the following theorem:
 
@@ -99,11 +112,11 @@ The main importance of deformation retract is embodied in the following theorem:
   Then by the proposition in Section 4, Chapter 1 of @may, we need only to prove that $gamma [h(a, -)] = "id"$, but by the definition of relative homotopy, $h(a, -) equiv a$ so the equation is tautology.
 ]
 #remark[
-  We can prove it directly, first we need a lemma: if $f, g: X -> Y$ is relative homotopic respect to $x_0 in X$, i.e. there exists a homotopy $h: f tilde.eq g "rel" {x_0}$, we claim that $f_* = g_*: pi_1(X, x_0) -> pi_1(Y, y_0)$ where $y_0 := f(x_0) = g(x_0)$.
+  We can prove it directly, first we need a lemma: if $f, g: X -> Y$ is relative homotopic respect to $x_0 in X$, i.e. there exists a homotopy $h: f hp g "rel" {x_0}$, we claim that $f_* = g_*: pi_1(X, x_0) -> pi_1(Y, y_0)$ where $y_0 := f(x_0) = g(x_0)$.
 
-  By this lemma, and note that $i compose r tilde.eq "id"_A "rel" {a}$, we have $(i compose r)_* = i_* compose r_* = ("id"_A)_*$. Furthur since $A$ is a retract, $r compose i = "id"$ and thus $r_* compose i_* = "id"$. So we finish the proof of the theorem.
+  By this lemma, and note that $i compose r hp "id"_A "rel" {a}$, we have $(i compose r)_* = i_* compose r_* = ("id"_A)_*$. Furthur since $A$ is a retract, $r compose i = "id"$ and thus $r_* compose i_* = "id"$. So we finish the proof of the theorem.
 
-  For the lemma, suppose $[p] in pi_1(X, x_0)$ is a path, we prove that $f compose p tilde.eq g compose p$: the homotopy $hat(h): I times I -> Y$ is given by
+  For the lemma, suppose $[p] in pi_1(X, x_0)$ is a path, we prove that $f compose p hp g compose p$: the homotopy $hat(h): I times I -> Y$ is given by
 
 #align(center)[
 #diagram({
@@ -124,7 +137,7 @@ So $pi_1(RR^n, x_0) = pi_1({x_0}, x_0) = {*}$.
 
 = Covering Space
 There are (at least) two definitions of covering spaces over a given base topological space $X$:
-  - *The "new" fashion*: A covering space over $X$ is a morphism $p: E -> X$ such that: for all $x in X$, there exists an open neihgbourhood $x in U_x$ such that $p^(-1)(U_x) tilde.equiv U_x times p^(-1)(x)$, where $p^(-1)(x)$ equipped with discrete topology.
+  - *The "new" fashion*: A covering space over $X$ is a morphism $p: E -> X$ such that: for all $x in X$, there exists an open neihgbourhood $x in U_x$ such that $p^(-1)(U_x) iso U_x times p^(-1)(x)$, where $p^(-1)(x)$ equipped with discrete topology.
   - *The "old" fashion*: A covering space over $X$ is a morphism $p: E -> X$ such that: for all $x in X$, there exists an _path-connected_ open neihgbourhood $U_x$ such that each path-connected component of $p^(-1)(U_x)$ is homeomorphic to $U_x$ via $p$.
 
 The new fashion can be found in @wedhorn, @loeh, and #link("https://ncatlab.org/nlab/show/covering+space")[_covering space_ on nLab]; while the old one can be found in @massey and @may.
@@ -226,13 +239,13 @@ This theorem is especially useful and when we want to prove something about cove
 #proof[
 The main idea is that we first prove the case $hat(X)$ is _global trivial_, and then proceed to the general case.
 
-- *Trivial Case*: Suppose $hat(X) tilde.equiv X times D$ for a discrete space $D$.
+- *Trivial Case*: Suppose $hat(X) iso X times D$ for a discrete space $D$.
   - Existence: We define $hat(f)(t) := (f(t), d_0)$, where $d_0 = "pr"_2(hat(x_0))$. It is continuous and indeed a lifting.
   - Uniqueness: For another lift $tilde(f): [0, 1] -> hat(X)$, since the diagram commutes, we have $tilde(f)(t) = (f(t), d(t))$ and $d(0) = d_0$.
     
     A continuous image of a path-connected space is again path-connected, so $tilde(f)(I)$ is path-connected and we claim that $d(t) equiv d_0$. Otherwise, because all discrete spaces are not path-connected, $(tilde(f)(t_1), d(t_1))$ can not be connected to $(tilde(f)(t_2), d(t_2))$ by path since $D$ is discrete.
 
-- *General Case*: Thanks to the local triviality of a covering space, for each $x in X$ there exists a open neihgbourhood $U_x$ such that $p^(-1)(U_x) tilde.equiv U_x times D$ a trivial covering of $U_x$, where $D := p^(-1)(x)$ is equipped with discrete topology.
+- *General Case*: Thanks to the local triviality of a covering space, for each $x in X$ there exists a open neihgbourhood $U_x$ such that $p^(-1)(U_x) iso U_x times D$ a trivial covering of $U_x$, where $D := p^(-1)(x)$ is equipped with discrete topology.
   
   Now we need only to divide $f$ into pieces of sub-paths ${f_i}$ that each of them is fully contained in some trivial open neihgbourhoods. Then use the result from the trivial case we obtain sub-liftings ${hat(f_i)}$, and finally glueing them!
 
@@ -411,9 +424,9 @@ The main idea is copying the definition of the simplicial one in a celever way a
 #definition(title: "Singular homology")[
 Let $X$ be general space. By "an $n$- simplicial map $phi$", we mean a continuous map $phi: Delta_n -> X$ where $Delta_n$ is the standard $n$-simplex;
 
-+ $C^"Sing"_n (X)$ is defined to be the free abelian group generated by all $n$-simplical maps to $X$;
-+ $"Sing"(X)$ is definned to be the chain complex consists of all $C^"Sing"_n (X)$;
-+ The singular $n$-homology group $H^"Sing"_n (X)$ is defined as the $n$-homology group of $"Sing"(X)$.
++ $C^sing_n (X)$ is defined to be the free abelian group generated by all $n$-simplical maps to $X$;
++ $sing(X)$ is definned to be the chain complex consists of all $C^sing_n (X)$;
++ The singular $n$-homology group $H^sing_n (X)$ is defined as the $n$-homology group of $sing(X)$.
 ]
 
 == Scheme of different homology theory
@@ -424,7 +437,7 @@ We find the scheme of definitions of different homology theories can be summed u
 
 And finally we obtain a homology theory of spaces, denoted by $H^alpha$.
 
-== $H^"Simp" = H^"Sing"$
+== $H^"Simp" = H^sing$
 Yes, they are the same. TODO: proof.
 #figure(
   image("./smae.jpg", width: 40%),
@@ -454,7 +467,7 @@ Here is an exmaple: Suppose we have a standard $2$-simplex $Delta_2$:
 
 By simple computation we find: $partial_1 (e_01 + e_12 - e_02) = 0 in C^"Simp"_0 (Delta_2) $. And $e_01 + e_12 - e_02$ is literally a cycle!
 
-Furthur, computation also shows $ker partial_1 = chevron.l e_01 + e_12 - e_02 chevron.r tilde.equiv ZZ$, which means all the elements in $ker partial_1$ are just mutiples of a cycle!
+Furthur, computation also shows $ker partial_1 = chevron.l e_01 + e_12 - e_02 chevron.r iso ZZ$, which means all the elements in $ker partial_1$ are just mutiples of a cycle!
 
 As for "boundaries", note that $partial_1 e_01 = v_1 - v_0$ which is just a combination of boundaries of $e_01$.
 
@@ -486,7 +499,7 @@ Let $X$ be a space $A$ be a subspace of $X$. Denote the quotient map by $q: X ->
 where $tilde(H)$ stands for the reduced singular homology.
 
 #proof[
-We first obtain a short exact sequence of chain complex: $0 -> "Sing"_bullet.op (A) arrow.hook.r "Sing"_bullet.op (X) ->> "Sing"_bullet.op (X slash A)$, which can be verified quickly.
+We first obtain a short exact sequence of chain complex: $0 -> sing_bullet.op (A) arrow.hook.r sing_bullet.op (X) ->> sing_bullet.op (X slash A)$, which can be verified quickly.
 
 The rest of the proof can be found in [Miller] Theorem 9.1.
 ]
@@ -513,7 +526,7 @@ Our map chain in $bold("Top")$ is $SS^(m - 1) arrow.hook.r DD^m ->> SS^m = DD^m 
    edge((-2, 1), (0, 1), "->")
 }))
 
-Note that $H_n (DD^m) = 0$ for all $n, m in ZZ$ since $DD^m$ is contractible, and thus we know the $partial$ here is actually an isomorphism, i.e. $tilde(H)_n (S^m) tilde.equiv tilde(H)_(n - 1) (S^(m - 1))$.
+Note that $H_n (DD^m) = 0$ for all $n, m in ZZ$ since $DD^m$ is contractible, and thus we know the $partial$ here is actually an isomorphism, i.e. $tilde(H)_n (S^m) iso tilde(H)_(n - 1) (S^(m - 1))$.
 
 And we know the reduced singular homology groups $tilde(H)_n (SS^0)$ of $SS^(0) = {bullet.op quad bullet.op}$ is $ZZ$ when $n = 0$ and $0$ otherwise. So by induction, we are done.
 
@@ -525,7 +538,7 @@ The excision lemma is a powerful tool for computing homology groups.
 
 #theorem(title: "Homology is invariant under excision")[
   For a space $X$, the homology group is invariant under tame excision, formally, if $A subset X$ is a subspace and $W subset A$, then
-  $ H_n (X, A) tilde.eq H_n (X - W, A - W), $
+  $ H_n (X, A) hp H_n (X - W, A - W), $
   provided that $W$ is "totally" contained in $A$, to be precise, $"cl"_X (W) subset "int"_X (A).$
 ]<excision>
 
@@ -554,7 +567,7 @@ Excision is useful to compute homology groups with the long exact sequence.
 
 _Ref_. Anthony Bosman's lectures on Algebraic Topology, lecture 15, `47:04`, availabe on #link("https://www.youtube.com/playlist?list=PLOROtRhtegr7DmeMyFxfKxsljAVsAn_X4")[Youtube] and #link("https://www.bilibili.com/video/BV1wi4y1z7KT?t=2823.0&p=16")[哔哩哔哩].
 
-#theorem(title: [$RR^n tilde.equiv RR^m <==> n = m$])[
+#theorem(title: [$RR^n iso RR^m <==> n = m$])[
 Let $U subset RR^n$ and $V subset RR^m$ be two opens, if they are isomorphic, then $n = m$.
 ]
 #proof[
@@ -562,7 +575,7 @@ This is really a good application of the Excision lemma. The main idea is use th
 
 We agree: in the following proof, $H_n (-)$ stands for the _reduced_ homology group, for short. We prove it in x steps:
 
-/ Step 1 (Excise what?): To make use of $H_k (SS^p)$, we need first make something homotopic to $SS^p$, and $RR^(p + 1) - {"pt"}$ comes into mind. By excision lemma $H_n (U, U - {"pt"}) tilde.equiv H_n (RR^n, RR^n - {"pt"})$ where we take $X = RR^n, A = RR^n - {"pt"}$ and $W = U$ in @excision.
+/ Step 1 (Excise what?): To make use of $H_k (SS^p)$, we need first make something homotopic to $SS^p$, and $RR^(p + 1) - {"pt"}$ comes into mind. By excision lemma $H_n (U, U - {"pt"}) iso H_n (RR^n, RR^n - {"pt"})$ where we take $X = RR^n, A = RR^n - {"pt"}$ and $W = U$ in @excision.
 
 / Step 2 (Use the long exact sequence): By the long exact sequence lemma, the following sequence is exact for all $k in ZZ$:
   #align(center, diagram({
@@ -581,14 +594,14 @@ We agree: in the following proof, $H_n (-)$ stands for the _reduced_ homology gr
      edge((-2, 1), (0, 1), "->")
      edge((-2, 0), (0, 0), "->", stroke: color.hsl(35deg, 18, 153))
      edge((0, 1), (2, 1), "->", stroke: color.hsl(35deg, 18, 153))
-     edge((-2, 1), (-2, 3), [$RR^n - {"pt"} tilde.eq SS^(n - 1)$], label-side: right, "=")
+     edge((-2, 1), (-2, 3), [$RR^n - {"pt"} hp SS^(n - 1)$], label-side: right, "=")
      edge((0, 1), (0, 3), "=")
      edge((2, 0), (2, -2), [$"Excision"$], label-side: right, "=")
      edge((0, 0), (0, -2), "=")
   }))
-  From the diagram, we observe that $partial$ is actually an isomorphism. So $H_k (U, U - {"pt"}) tilde.equiv H_(k - 1) (SS^(n - 1))$, similarly we have $H_k (V, V - {"pt"}) tilde.equiv H_(k - 1) (SS^(m - 1))$.
+  From the diagram, we observe that $partial$ is actually an isomorphism. So $H_k (U, U - {"pt"}) iso H_(k - 1) (SS^(n - 1))$, similarly we have $H_k (V, V - {"pt"}) iso H_(k - 1) (SS^(m - 1))$.
 
-/ Step 3 (Homology of spheres): By assumption, $U tilde.equiv V$, so the two relative homology groups $H_k (U, U - {"pt"})$ and $H_k (V, V - {"pt"})$ are isomorphic, which means $H_k (SS^(n - 1)) tilde.equiv H_k (SS^(m - 1))$ for all $k$ by works in step 2. Finally, thanks to our computation on the homology groups of spheres, this immediately implies $n = m$, we are done.
+/ Step 3 (Homology of spheres): By assumption, $U iso V$, so the two relative homology groups $H_k (U, U - {"pt"})$ and $H_k (V, V - {"pt"})$ are isomorphic, which means $H_k (SS^(n - 1)) iso H_k (SS^(m - 1))$ for all $k$ by works in step 2. Finally, thanks to our computation on the homology groups of spheres, this immediately implies $n = m$, we are done.
 ]
 
 = (Co)fibration
