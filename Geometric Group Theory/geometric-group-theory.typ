@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////
 ///////////////////////////  Settings  ////////////////////////////
 ////////////////////////////////////////////////////////////////////
-#import "@preview/fletcher:0.5.3" as fletcher: diagram, node, edge  // Commutative diagram
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge  // Commutative diagram
 
 #import "@preview/theorion:0.4.0": *  // Theorem environment
 // #import cosmos.fancy: *
@@ -23,8 +23,6 @@
 // Enable justification
 #set par(justify: true)
 
-// Set numbering
-#set heading(numbering: "1.")
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////  Title  ///////////////////////////////
@@ -68,7 +66,9 @@ This note is taken on the Nankai Logic Summer School 2025: _Gromov's Randomness 
 
 I must admit that I almost know nothing about serious geometric group theory and large-scale geometry, and this note should not be used as a study matetial. I just written down things interested me.
 
-Reference: #link("https://loeh.app.uni-regensburg.de/ggt_book/ggt_book_draft.pdf")[Loeh's Notes].
+These materials may contain typos and errors, use at your own risk.
+
+Reference: #link("https://loeh.app.uni-regensburg.de/ggt_book/ggt_book_draft.pdf")[Prof. Löh's Notes].
 
 
 = Day 1
@@ -140,7 +140,7 @@ Reference: #link("https://loeh.app.uni-regensburg.de/ggt_book/ggt_book_draft.pdf
     
 = Day 2
 + "The" Cayley graph of a finitely generated group is unique (up to quasi-isometry).
-  - _Remark:_ For group $G = angle.l S | R angle.r$ finitely generated, we can define the length for any element $g in G$ as $|g|_G := min_(g = h) |h|_"Cayley"$.
+  - _Remark:_ For group $G = chevron.l S | R chevron.r$ finitely generated, we can define the length for any element $g in G$ as $|g|_G := min_(g = h) |h|_"Cayley"$.
 
 + (*Hyperbolic Group*) A group is called hyperbolic if its Cayley graph is hyperbolic as a metric spacce.
   - _Remark:_ This is just one of the many definitions of hyperbolic groups.
@@ -169,4 +169,61 @@ Reference: #link("https://loeh.app.uni-regensburg.de/ggt_book/ggt_book_draft.pdf
     where $"Cay"(G, S)$ is a simplicial tree.
   - ($<==$) Use covering space theory. If $G arrow.ccw T$ nicely then we obtain a covering map $p: T -> T slash G$, which is universal, so $pi_1(T slash G) tilde.equiv G$. But $T slash G$ is a graph so $pi_1(T slash G)$ is free.
 
-+ 
++ (*Asymptotic cones*) Given a non-principal ultrafilter $cal(U)$ on $NN$, and a metric space $(X, d)$, we can construct another metric space  consists of elements near a given sequence $(e_i)_i$, formally:
+  $ "Cone"_cal(U) (X, (e_i)_(i in NN), (s_i)_(i in NN)) $
+  is a metric space where:
+  - Elements: equivalence class of $(x_i)$ where
+    - $(x_i)$ satisfies $lim_cal(U) (d(e_i, x_i))\/s_i$ exists;
+    - $(x_i) ~ (y_i)$ iff $lim_cal(U) d(x_i, y_i)\/s_i = 0$;
+  - Metric: $d^*((x_i), (y_i)) = lim_cal(U) d(x_i, y_i)\/s_i$.
+  _Remark_. So the requirement that its elements are forced to be equivalence class is only needed for the axiom of metric space.
++ Some facts about asymptotic cones: for finitely generated group, all asymptotic cones of $(G, d)$ are geodesic.
++ Gromov used the notion of asymptotic cone to define (or gave an equivalent definition of) hyperbolic groups.
++ (*Area of an element*) For a finite presentation $chevron.l A, R chevron.r$ and $w in chevron.l.double R chevron.r.double subset F A$, define 
+  $ "area"(w) := min {M: w = product_(i = 1)^M p_i r_i^(epsilon_i) p_i^(-1)}. $
++ (*Dehn function*) For a specific presentation $P$ of a group $G$, define $delta_P: NN -> NN, delta_P (n) := max {"area"(w): l(w) <= n}$.
++ (*Isopermetric inequality*) For a finitely generated group with a presentation $Gamma$, we have $Gamma$ satisfies a linear isopermetric inequality if $delta_Gamma (n) <= n$.
++ Let $P = chevron.l A | R chevron.r$ be a finitely presentation. Then the word problem is decidable iff $delta_P (n) <= f(n)$ for a computable $f$.
+
+= Day 3
++ A finitely presentable group with a presentation $Gamma$ is hyperbolic iff $delta_Gamma (n) lt.tilde n$.
+
+  _Remark 1_. The curve $lt.tilde$ asserts that the increasing speed of LHS is less than RHS.
+
+  _Remark 2_. For two different presentation $Gamma$ and $P$ of a same group we have $delta_Gamma minus.tilde delta_P$.
++ Hyperbolic groups are Hopfian (i.e. all surjective endomorphisms are also injective).
++ One-ended hyperbolic groups are co-Hopfian.
++ (*Two finiteness Theorem*) For a hyperbolic group:
+  + There are only finitely many finite order elements;
+  + There are only finitely many finite subgroups;
++ $"BS"(m, n) := chevron.l a, b | a b^m a^(-1) = b^n chevron.r$ is torsion free.
+
+= Day 4
++ (*Tarshi*) Do non-commutative free groups share the same first order theory?
++ (*Малщев*) Is the commutator subgroup of $F_n$ definable in $F_n$?
++ (*Sela, Харломпович, Мяанаков*) The chain
+  $ F_2 subset F_3 subset ... $
+  is elementary.
++ (*Sela*) The theory of free groups is stable.
++ (*Gibone*) $"Th"(F_omega := union.big F_n)$ is not superstable.
++ (*Nies*) $F_2$ is homogenuous, i.e. if $"tp"^(F_2) (overline(a)) = "tp"^(F_2) (overline(b))$ then there exists $f in "Aut"(F_2)$ such that $ f(overline(a)) = overline(b). $
++ Facts about free groups:
+  + They are Hopfian;
+  + They are relative co-Hopfian.
++ An endomorphism $h in "End"(F_2)$ is injective iff $h([e_1, e_2]) != 1$.
+  
+  _Remark 1_. To prove this, one must use the Hopficity of free groups.
+
+  _Remark 2_. This fact can be used to prove Nies's result: Suppose $overline(a) = overline(w)(e_1, e_2)$, then $ F_2 tack.r.double exists x_1, x_2 ([x_1, x_2] != 1 and overline(w)(x_1, x_2) = overline(a)), $ since $"tp"(overline(a)) = "tp"(overline(b))$, we have $ F_2 tack.r.double exists y_1, y_2 ([y_1, y_2] != 1 and overline(w)(x_1, x_2) = overline(a)). $
++ (*Sklinos*) The type $"tp"^(F_2)(e_1)$ for the free group $F_2 := chevron.l e_1, e_2 chevron.r$ is NOT isolated.
++ (*Nies, Sklinos*) $"Th(Free groups)"$ does not admit a prime model.
++ (*Problem*) $"SL"_2 (ZZ)$ is stable.
++ (*Stability*) A structure $M$ is called stable if for any formula $phi(overline(x), overline(y))$, there exists $n in NN$ such that for any $(overline(a)_i)_(i < k)$ and $(overline(b)_i)_(i < k)$, if
+  $ M tack.r.double phi(overline(a)_i, overline(b)_j) "iff" i < j, $
+  then $k < n$.
++ Modules are stable (Thus abelian groups are stable).
++ $(RR, +, dot, 0, 1)$ is not stable.
++ (*$lambda$-stable theory*) A first order theory is $lambda$-stable where $lambda$ is an infinite cardinal, if for any subset $A subset M tack.r.double T$, we have $|A| <= lambda$ implies $|S(A)| <= lambda$, where $S(A)$ is the stone space of $A$.
++ (*Generic types for a group*) For a stable group $G$, a definable set $X$ is generic if there exists $(g_i)_(i in NN)$ such that $union.big_(i in NN) g_i X$ covers $G$.
++ $"Th(Free groups)"$ has $2^(aleph_0)$ many countable models (Hints: $|S_1 ("Th(Free groups)")| = 2^(aleph_0)$).
++ A groups is called connected if it has no proper definable subgroups of finite index.
