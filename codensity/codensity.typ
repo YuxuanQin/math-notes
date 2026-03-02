@@ -59,14 +59,12 @@ Last compiled at #datetime.today().display() \
 
 #show "TODO": text(red)[*TODO*]
 
-
+#outline()
 
 = Locally presentable category
 _Ref_. #link("https://ncatlab.org/nlab/show/locally+presentable+categories+-+introduction")[_Locally presentable categories -- introduction_ (nLab)].
 
 == Filtered category
-_Ref_. #link("https://ncatlab.org/nlab/show/filtered+category")[_
-Filtered category_ (nLab)]
 
 *Filtered category is the categorification of the concept of directed set*: in a directed set $D$, there must be a mutual upper bound $m$ for every pair of elements $a$ and $b$, i.e. $a <= m$ and $b <= m$. In the common categorification of posets, this means there exists morphisms $a -> m$ and $b -> m$.
 
@@ -85,6 +83,7 @@ We can extend this definition: what if we require every diagram with cardinality
 
 To do so we must introduce regular cardinals.
 
+*References*: #link("https://ncatlab.org/nlab/show/filtered+category")[_Filtered category_ (nLab)]
 == Regular cardinals
 A regular cardinal is a cardinal *closed under union*.
 
@@ -138,4 +137,9 @@ A catgeory is locally presentable if all objects can be presented \/ generated b
   - There is a small set $S$ of small objects generated $cal(C)$, i.e. every object in $cal(C)$ is a colimit of objects in $S$.
 ]
 
+There are many exmaples of such categories (see nLab for more):
+
+*References*:
+- #link("https://ncatlab.org/nlab/show/locally+presentable+category")[_Locally presentable category_ (nLab)].
+- #link("https://mattecapu.github.io/ct-zulip-archive/stream/229199-learning.3A-questions/topic/motivation.20for.20accessible.20categories.html#266217215")[_motivation for accessible categories_ on Category Theory Zulip server].
 
