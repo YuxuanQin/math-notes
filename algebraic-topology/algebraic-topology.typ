@@ -208,7 +208,6 @@ This theorem is especially useful and when we want to prove something about cove
 
 == Lifting Properties
 
-
 #theorem(title: "Lifting of paths")[
   For a given covering space $p: hat(X) ->> X$ and a path $f: I -> X$ with the initial point $x_0 := f(0)$, then for any $hat(x_0) in hat(X)$ such that $p(hat(x_0)) = x_0$, there exists an unique path $hat(f): I -> E$ with initial point $hat(x_0)$ such that $p compose hat(f) = f$.
 

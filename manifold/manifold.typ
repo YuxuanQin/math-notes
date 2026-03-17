@@ -1,5 +1,6 @@
 #import "@preview/theorion:0.3.3": *
-#import cosmos.clouds: *
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge  // Commutative diagram
+#import cosmos.fancy: *
 #show: show-theorion
 
 // ↑ Theorem Environment ↑ //
@@ -10,6 +11,25 @@
   justify: true,
 )
 
+
+// Self Defined Symbols
+#let iso   = symbol("≅")
+#let hp    = symbol("≃")
+#let mset  = $bold("Set")$
+#let sset  = $bold("sSet")$
+#let mgrp  = $bold("Grp")$
+#let mtop  = $bold("Top")$
+#let simp  = $"Simp"$
+#let sing  = $"Sing"$
+#let inj   = $arrow.hook.r$
+#let ch    = $"Ch"$
+#let sh    = $bold("Sh")$
+#let cala  = $cal(A)$
+#let calo  = $cal(O)$
+#let et    = $bold("Ét")$
+#let ab    = $bold("Ab")$
+#let colim = $"colim"$
+#let Hom   = $"Hom"$
 ///// ↑↑↑ SETTINGS ↑↑↑ /////
 
 #align(center, text(17pt)[
@@ -192,3 +212,261 @@ It's straightforward to extend this definition to global, first note that all co
   $ hat(H)(X, G) := "colim"_(cal(U)) hat(H)(cal(U), G).  $
   
 ]
+
+= Ch 5: Linearization of Manifolds
+#definition(title: "Rank of a morphism between manifolds")[
+  For a morphism (i.e. smooth map) $F: M -> N$ between manifolds, define the rank of $F$ at a point $p in M$ as:
+    $ "rk"_p (F) := dim im T_p F, $
+  where $T_p F: T_p M -> T_(F(p)) N$ is the differential of $F$.
+]
+
+Note that we obtain a function $"rk"_((-)) F: M -> NN$.
+
+#proposition(title: [$"rk"_((-)) F^(-1) (NN_r^+)$ is open])[
+  For morphisms between manifolds $F: M -> N$ and any given $r in NN$, the following subset of $M$ is open:
+  $ {p in M: "rk"_p F >= r}. $
+]
+#proof[
+  By restricting the domain to a smaller open subset $U subset M$ we can assume $M subset KK^n$ and $N subset KK^m$, thus $T_p F$ can be identifies with an element $A$ in $Hom_KK (KK^n, KK^m)$, which can be viewd as a matrix.
+
+  So we just need to prove ${A in "Mat"_(n times m): "rk" A >= r}$ is open, but this can be done by checking the complement, for simplicity denoted by $C$, which consists of matrices whose all $r$-minors vanish.
+
+  Since the determinent is continuous and thus preserve the $r$-minor vanishing properties, $C$ is closed. So the given set is open. 
+]
+
+#corollary[
+  For morphism between manifolds $F: M -> N$:
+  + The set $U := {p in M: F "is an immersion at" p} subset M$ is open.
+  + The set $V := {p in M: F "is an submersion at" p} subset M$ is open.
+]
+#proof[
+  We give the proof of 1.
+
+  Since $M$ is a manifold there is an atlas ${U_i}_(i in I)$ where $U_i iso KK^(n_i).$
+
+  Note that
+  $ U = union.big_(i in I) {p in U_i: F "is an immersion at" p}, $
+  and for all $p in U_i$, we have $T_p M iso T_p U_i iso KK^(n_i)$, so the differential map of $F$ is
+  $ T_p F: T_p M iso T_p U_i iso KK^(n_i) -> T_(F(p)) N. $
+  And thus
+  $ {p in U_i: F "is an immersion at" p} = {p in U_i: "rk"_p F >= dim T_p M = n_i} $
+  is an open subset since $n_i$ is a fixed natural number.
+
+  Finally $U$ is open because it is an union of open sets.
+]
+
+
+= Ch 6: Lie Groups
+== Derivative of a Lie algebra
+This is (seemingly) a standard result: given a finite dimensional Lie algebra $frak(g)$, the automorphism group $"Aut"(frak(g))$ is actually a Lie group. TODO: proof.
+
+#definition(title: "Derivative of a Lie algebra")[
+  Given a finite dimensional Lie algebra $frak(g)$, the Lie algebra of the Lie group $"Aut"(frak(g))$ is called the *space of derivatives* of $frak(g)$.
+]
+
+= Ch 7: Torsors and the First Čech Cohomology
+The exact reason why people defined the Čech Cohomology in such a complex way remains unknown to me, but if take for grant then the introduction of torsors is, in some sense, natural out of the consideration of providing an alternative definition.
+
+== Torsors
+In the context of group theory, torsor is just a $G$-set whose action is freely transitive. And it is natural to generalize this definition to other $mset$-like categories, i.e. topoi.
+
+Torsors are geometric model of the first non-abelian cohomology of a sheaf, that means, the equivalence class of torsors of a group sheaf $G$ is isomorphic to the first Čech cohomology group, see @torsor-cech-eq for more.
+
+We can form the category of torsors $bold("Tors")(cala)$ of a given group sheaf $cal(A)$, and a surprising result is
+#theorem(title: [$bold("Tors")(cala)$ is a groupoid])[
+  + $bold("Tors")(cala)$ is a groupoid;
+  + An $cala$-torsor $T$ is trivial iff $T(X) != emptyset$
+]
+
+The following theorem is a good example of using the equivalence between $sh(X)$ and $et(X)$:
+#theorem[
+$H^1 (X, cala) = 0$ for locally constant sheaf $cala$ and simply connected, path-connected $X$.
+]<simply-connected-implies-cech-trivial>
+
+We can use this theorem to prove the classical result
+#proposition[
+  Let $M subset CC$ be open, then a holomorphic function $f: M -> CC$ admits primitives if $M$ is simply-connected
+]<primitive-exists>
+
+#proof[
+  We define the primitive sheaf $"Prim"_f$:
+    $ U |-> "Prim"_f (U) := {"Primitives of" f "on" U}, $
+
+  This is a $CC_M$-torsor with action by addition:
+    $ CC_M (U) times "Prim"_f (U) -> "Prim"_f (U),\ (h, F) |-> h + F. $
+
+  Note that the assertion is equivalent to $"Prim"_f (M) != emptyset$, which is again equivalent to $"Prim"_f$ is trivial.
+
+  Now by @simply-connected-implies-cech-trivial, $H^1 (M, CC_M)$ is trivial, so $"Prim"_f iso CC_M$ thus $"Prim"_f (M) != emptyset$.
+]   
+    
+#proposition(title: "Logarithm is a torsor")[
+Let $M subset CC$ be open and $f: M -> CC$ be holomorphic. Define the sheaf $log_f in sh(M)$:
+  $ log_f U := {g in "holomorphic"(U): exp compose g = f}. $
+
+Then
+  + $log_f$ is a $ZZ_M$-pseudotorsor;
+  + $log_f$ is a torsor iff $f$ does not vanish on $M$
+]
+#proof[
+  + Trivial;
+  + For every point $p in M$, there exists an open ball $p in B_p$ such that $B_p subset M$ because $M$ is open. So When $f$ does not vanish on $M$, ${B_p}_(p in M)$ trivialises $log_f$, which is a classical result from complex analysis#footnote[Non-vanishing functions admit logarithm on open balls. See, for example, Freitag Theorem II.2.9.].
+]
+
+So, when $M$ is simply connected and $f$ does not vanish on $M$, we have $H^1 (M, ZZ_M)$ is trivial, which means $log_f (M) != emptyset$.
+
+If $f$ admits a primitive on $M$, then by methods of complex analysis we can give a explicit logarithm of $f$, which is defined in Freitag, Theorem II.2.9. But we still need to prove the existence of primitives on a simply connected open set, which can be proved by @primitive-exists.
+
+Torsors are amazing!
+
+
+=== Torsors and principal bundles
+In this subsection, we generalize torsor to any category with product.
+
+#definition(title: "Torsors in general categories")[
+  Let $cal(C)$ be a category with products, and $G in cal(C)$ a group object. A $G$-torsor in $cal(C)$ is an object $T in cal(C)$ with an action map $alpha: G times T -> T$ such that the shear map
+    $G times T -> T times T$
+  is an isomorphism.
+]
+
+Torsors are preserved under the map from $cal(C)$ to the slice catgeory $cal(C)\/B$ for $B in cal(C)$:
+#definition(title: "Torsors over an object")[
+  Suppose $(T, alpha: G times T -> T)$ is a torsor in a category $cal(C)$.
+
+  For $B in cal(C)$, we have a slice map $ (- times B): cal(C) ->> cal(C)\/B$ as:
+    $ C |-> (C times B, "pr"_B). $
+
+  This slice map preserves products so $G times B$ is also a group in $cal(C)\/B$.
+
+  Now we define *a $G$-torsor over $B in cal(C)$* is a $(G times B)$-torsor in $cal(C)\/B$.
+]
+
+#definition(title: "Princial bundles")[
+  Given a topological group $G$ and a space $B$, a $G$-princial bundle $P$ over $B$ is defined as a $G$-torsor over $B$, with a local trivialization.
+]
+
+== $H(cal(U), cal(A)) iso caron(H)(cal(U), cal(A))$<torsor-cech-eq>
+This is just like $H^"Sing" iso H^"Simp"$.
+
+Sometimes it is more convenient to compute the cohomology in another way.
+
+A good example of using different definition to obtain fast proof of something related to the first Čech cohomology is the following proposition:
+#proposition[
+  $cala in sh_ab (X) => caron(H)^1 (X, cala) in ab$
+]
+#proof[
+When $cala$ is a sheaf of abelian groups, by the definition of Čech cohomology it is obvious that $caron(H)(cal(U), cala)$ is an abelian group.
+
+Since $ab$ admit arbitrary colimit and
+  $ caron(H)^1 (X, cala) = colim_(cal(U)) caron(H)^1(cal(U), cala), $
+
+this property is immediate.
+
+]
+#remark[
+To prove this result by the definition using torsor is unimaginable.
+]
+
+
+
+== Extend the short exact sequence
+Given a exact sequence of group sheaves on $X$:
+#align(center, diagram({
+   node((-2, 0), [$1$])
+   node((-1, 0), [$cala'$])
+   node((0, 0), [$cala$])
+   node((1, 0), [$cala''$])
+   node((2, 0), [$1$])
+   edge((-2, 0), (-1, 0), "->")
+   edge((-1, 0), (0, 0), [$iota$], label-side: left, "hook->")
+   edge((0, 0), (1, 0), [$pi$], label-side: left, "->")
+   edge((1, 0), (2, 0), "->")
+}))
+
+We can extend it#footnote[It can be extended to infinity, but now we just focus on the first cohomology groups.].
+
+#theorem(title: "Extend exact sequence of sheaves")[
+
+  For group sheaves $cala, cala'$ and $cala''$, the following sequence of *pointed sets* is exact:
+
+    #align(center, diagram({
+       node((-2, 0), [$1$])
+       node((-1, 0), [$cala'(X)$])
+       node((0, 0), [$cala(X)$])
+       node((1, 0), [$cala''(X)$])
+       node((-2, 1), [$caron(H)^1(X, cala')$])
+       node((-1, 1), [$caron(H)^1(X, cala)$])
+       node((0, 1), [$caron(H)^1(X, cala'')$])
+       edge((-2, 0), (-1, 0), "->")
+       edge((-1, 0), (0, 0), [$iota$], label-side: left, "hook->")
+       edge((0, 0), (1, 0), [$pi$], label-side: left, "->")
+       edge((1, 0), (-2, 1), [$delta$], label-side: center, "->")
+       edge((-2, 1), (-1, 1), "->")
+       edge((-1, 1), (0, 1), "->")
+    }))
+]<extend-cech>
+#warning-box[
+  $caron(H)^1(X, cala)$ is _not_ a group in general, but it is a pointed set.
+]
+
+= Ch 8: Bundles
+
+The following example shows the power of @extend-cech:
+
+#example[
+Consider this exact sequence of Lie groups:
+  #align(center, diagram({
+     node((-2, 0), [$0$])
+     node((-1, 0), [$ZZ$])
+     node((0, 0), [$CC$])
+     node((1, 0), [$CC^times$])
+     node((2, 0), [$0$])
+     edge((-2, 0), (-1, 0), "->")
+     edge((-1, 0), (0, 0), "hook->")
+     edge((0, 0), (1, 0), [$exp(2pi i dot-)$], label-side: left, "->>")
+     edge((1, 0), (2, 0), "->")
+  }))
+
+By the above theorem (TODO), for every complex manifold $B$, the following sequence of sheaves is also exact:
+  #align(center, diagram({
+     node((-2, 0), [$0$])
+     node((-1, 0), [$ZZ_B$])
+     node((0, 0), [$calo_B$])
+     node((1, 0), [$calo_B^times$])
+     node((2, 0), [$0$])
+     edge((-2, 0), (-1, 0), "->")
+     edge((-1, 0), (0, 0), "hook->")
+     edge((0, 0), (1, 0), [$exp(2pi i dot-)$], label-side: left, "->>")
+     edge((1, 0), (2, 0), "->")
+  }))
+
+By @extend-cech, we obtain a longer exact sequence
+  #align(center, diagram({
+     node((-2, 0), [$0$])
+     node((-1, 0), [$ZZ^(pi_0(B))$])
+     node((0, 0), [$calo_B (B)$])
+     node((1, 0), [$calo_B^times (B)$])
+     node((-2, 1), [$caron(H)(B, ZZ_B)$])
+     node((-1, 1), [$caron(H)(B, calo_B)$])
+     node((0, 1), [$caron(H)(B, calo_B^times)$])
+     edge((-2, 0), (-1, 0), "->")
+     edge((-1, 0), (0, 0), "hook->")
+     edge((0, 0), (1, 0), [$exp(2pi i dot-)$], label-side: left, "->>")
+     edge((1, 0), (-2, 1), [$delta$], label-side: center, "->")
+     edge((-2, 1), (-1, 1), "->")
+     edge((-1, 1), (0, 1), "->")
+  }))
+
+So a nowhere vanishing holomorphic function admits a logarithm iff $ im(calo_B (B) ->> calo_B^times (B)) = calo_B^times (B), $ iff $ im delta = 0, $ iff $caron(H)(B, ZZ_B) -> caron(H)(B, calo_B)$ is injective.
+
+So when $B$ is simply connected, every nowhere vanishing function admits a logarithm.
+]
+
+== Vector bundles
+Vector bundles are good which embodied in the following equivalence:
+$ bold("VectB")_X iso "Finite Locally Free " cal(O)_X-bold("Mod"), $
+and the latter is a abelian group, so is $bold("VectB")_X$.
+
+So, by the general operation, i.e. given an abelian group, we can form a $K$-theory of it, we thus obtain the topological $K$-theory.
+
+TODO: The precise process of form a $K$-theory, and is it true that given any abelian category we can do this?
