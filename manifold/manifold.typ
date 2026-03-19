@@ -30,6 +30,10 @@
 #let ab    = $bold("Ab")$
 #let colim = $"colim"$
 #let Hom   = $"Hom"$
+#let diff  = $bold("Diff")$
+#let mnfd  = $bold("Mnfd")$
+#let yo    = $"よ"$
+#let fib   = $"Fib"$
 ///// ↑↑↑ SETTINGS ↑↑↑ /////
 
 #align(center, text(17pt)[
@@ -257,6 +261,8 @@ Note that we obtain a function $"rk"_((-)) F: M -> NN$.
 
 
 = Ch 6: Lie Groups
+Lie group is the group object in the category of smooth manifolds, so to investigate the group action on a manifold we should first learn something about Lie group.
+
 == Derivative of a Lie algebra
 This is (seemingly) a standard result: given a finite dimensional Lie algebra $frak(g)$, the automorphism group $"Aut"(frak(g))$ is actually a Lie group. TODO: proof.
 
@@ -410,7 +416,94 @@ We can extend it#footnote[It can be extended to infinity, but now we just focus 
 ]
 
 = Ch 8: Bundles
+In the previous chapter we found an isomorphism between the first Čech Cohomology and the equvilence class of torsors, i.e. if we can give a full classification of all the torsors, we can also decide $caron(H)^1 (X, cala)$, where $cala in sh_ab (X)$.
 
+What if the sheaf $cala$ is not abelian but a general sheaf of groups? How should we describe the Čech cohomology group? In this chapter we will see one way is to use twists, and we will give further descriptions of $caron(H)^1 (X, cal(G))$ for different kinds of $cal(G) in sh_mgrp (X)$ by investigating different kinds of twists, like fiber bundles and vector bundles.
+
+In short: *bundles are geometric models of Čech cohomology*.
+
+== Twists, Principal bundles and Vector bundles
+The universal idea behind Čech cohomology is the cocycle condition.
+
+=== Twists
+For different kinds of manifolds, the condition satisfied by transition functions between open sets in atlas varies, for example in the catgeory of $diff$ which consists of smooth manifolds, the transition functions between $U_1, U_2 in "atlas"$ should be smooth, but in the category of topological manifolds we only need the transition functions to be continuous.
+
+Even if we are in the same category, we may want to restrict our attention to a specific kind of manifolds with specific condition to transition functions, this can be modeled by twists.
+
+TODO: 上面的東西似乎不對，因爲 twists 是針對態射而言，而流形的 transition functions 是只針對自身而言。
+
+We say, for simplicity, for a given manifold $B$, a morphism in the slice category $mnfd\/B$ is a $B$-morphism.
+
+#definition(title: [The *MEGA* group sheaf])[
+  For a morphism between manifolds $p: Z -> B$, we define the automorphism sheaf $"Aut"_p in sh_mgrp (Z)$ by
+  $ "Aut"_p (U) := {U"-isomorphisms between" p^(-1)(U) -> p^(-1)(U)}, $
+  where $U subset Z$ open.
+]
+#remark[
+  All transition functions are automorphism, so every group sheaf is a subsheaf of $"Aut"_p$.
+]
+
+
+#definition(title: "Twist")[
+  TODO
+]
+
+#theorem(title: "Čech cohomology is modeled by twists")[
+  This is an isomorphism between pointed sets:
+  $ gamma: {"isomorphism classes of twists of" p "with structure sheaf" cal(G)} -> caron(H)^1 (B, cal(G)). $
+]
+
+=== Fiber bundles
+There is a special class of morphisms that arises our interest, that is, projections $p: B times F ->> B$. The twists that locally look like a projection is called a fiber bundle.
+
+There is also a special class of subsheaves of $"Aut"_p$:
+#definition(title: [$calo_(B; G) inj "Aut"_p$])[
+  Given a Lie group $G$ and a faithful $G$-action on a manifold $F$ by a morphism of manifold $G times F -> F$, then we claim:
+  $ iota: calo_(B; G) inj "Aut"_p\
+  iota_U: g in calo_(B; G)(U) |-> [(b, f) in p^(-1)(U) |-> (b, g(b)f) in p^(-1) U] $
+  is a subsheaf inclusion.
+]
+
+We give a new name of two twists satisfying those two special conditions above:
+#definition(title: [Fiber bundle with basis $B$, typical fiber $F$ and structure group $G$])[
+  TODO: definition.
+]
+
+And here is what fiber bundles are for: $caron(H)^1 (B, yo_G)$ can be classified by them, where $G$ is a Lie group.
+
+#theorem(title: "Čech cohomology is modeled by fiber bundles")[
+  Denote the isomorphism classes of fiber bundles with basis $B$, typical fiber $F$ and structure group $G$ by $fib_(F, G) (B)$, then there is an isomorphism:
+  $ fib_(F, G) (B) -> caron(H)^1 (B, calo_(B; G)), $
+  where $calo_(B; G)$ sends $U subset B$ open to $mnfd(U, G)$.
+]
+
+=== Vector bundles<vector-bundle>
+There is a specific kind of Lie groups, namely the general matrices group $"GL"(n, KK)$, and the specific kind of Čech cohomology $caron(H)^1 (X, calo_(B; "GL"(n, KK)))$ can be classified by a special kind of fiber bundles -- vector bundles.
+
+For simplicity we define $"GL"_(n, B) := calo_(B; "GL"(n, KK))$.
+
+By general argument of fiber bundles we have a isomorphism:
+$ caron(H)^1 (B, "GL"_(n, B)) iso {"isomorphism classes of vector bundles of rank" n "with basis" B}. $
+
+For $n = 1$ this is:
+$ caron(H)^1 (B, "GL"_(1, B))iso {"isomorphism classes of line bundles with basis" B}, $
+and since $"GL"_(1, B) = O_B^times$ is an abelian group, $caron(H)^1 (B, "GL"_(1, B))$ is also an abelian group.
+
+#definition(title: "Picard group")[
+  We define the Picard group of a manifold $B$ as
+  $ "Pic"(B) := caron(H)^1 (B, "GL"_(1, B)), $
+  which is an abelain group.
+
+]
+
+Vector bundles are good which embodied in the following equivalence:
+$ bold("VectB")_X iso "Finite Locally Free " cal(O)_X-bold("Mod"), $
+and the latter is a abelian category, so is $bold("VectB")_X$.
+
+So, by the general operation, i.e. given an abelian group, we can form a $K$-theory of it, we thus obtain the topological $K$-theory.
+
+TODO: The precise process of form a $K$-theory, and is it true that given any abelian category we can do this?
+=== Application
 The following example shows the power of @extend-cech:
 
 #example[
@@ -462,11 +555,15 @@ So a nowhere vanishing holomorphic function admits a logarithm iff $ im(calo_B (
 So when $B$ is simply connected, every nowhere vanishing function admits a logarithm.
 ]
 
-== Vector bundles
-Vector bundles are good which embodied in the following equivalence:
+=== $calo_X$-modules
+#text(fill: blue)[Typical example: the tangent bundle].
+
+The main result have been stated in @vector-bundle:
+
+#quote[Vector bundles are good which embodied in the following equivalence:
 $ bold("VectB")_X iso "Finite Locally Free " cal(O)_X-bold("Mod"), $
-and the latter is a abelian group, so is $bold("VectB")_X$.
+and the latter is a abelian category, so is $bold("VectB")_X$.]
 
-So, by the general operation, i.e. given an abelian group, we can form a $K$-theory of it, we thus obtain the topological $K$-theory.
+So given an functor $F: calo_X (X)-bold("Mod") -> calo_X (X)-bold("Mod")$ we can apply it to sheaves in $calo_X-bold("Mod")$.
 
-TODO: The precise process of form a $K$-theory, and is it true that given any abelian category we can do this?
+So given a vector bundle we can construct its dual bundle by applying the dual functor to the corresponding $calo_X$-module.
