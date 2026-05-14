@@ -56,6 +56,8 @@
 #let hd   = $bullet.op$
 #let tor  = $"Tor"$
 #let dr   = $"dR"$
+#let cone = $"Cone"$
+#let oplus = $plus.o$
 
 #let zhu(body) = {
   set text(fill: gray)
@@ -288,8 +290,163 @@ An application:
   $ H_p (T^n) = ZZ^mat(n; p), $
   where $T^n := (S^1)^n$ is the $n$-tori.
 
-== Sheaf Cohomology
-=== Why you want flabby resolution
+== Universal $partial$-functors
+=== Erasable functor
+_Ref_. [Tohoku].
+
+When $F$ is erasable, it with its satellite functors form a universal $partial$-functor.
+
+= Derived category
+The derived category $D(cala)$ of an abelian category $cala$ is the result of the chain complex category $ch(cala)$ modding out quasi-isomorphisms.
+
+== Mapping Cone and Cylinder
+Mapping cone and cylinder are two #zhu[mysterious] objects that play as the canonical gredient in a _distinguished triangle_.
+
+Distinguished triangles play a role as exact sequence in abelian categories as in derived categories, since the latter, though additive, are not abelian and thus we can not talk about "exactness".
+
+#definition(title: "Mapping cone")[
+  For a map $f: K^hd -> L^hd$ between cochain complexes, its mapping cone is also a cochain complex 
+  $ cone(f) := K^hd [1] oplus L^hd, $
+  and the differential map (aka coboundary map) $d: K^(p + 1) oplus L^p -> K^(p + 2) oplus L^(p + 1)$ is given by
+  $ d(k^(p + 1), l^p) := () $
+  TODO: complete.
+]
+
+#definition(title: "Mapping cylinder")[
+  TODO
+]
+
+The mapping cone and the mapping cylinder are related by the following lemma:
+
+#lemma(title: "Cones and cylinders give \"canonical\" distinguished triangles")[
+  For any map $f: K^hd -> L^hd$, there exists the following commutative diagram with exact rows:
+  // https://q.uiver.app/#r=typst&q=WzAsMTIsWzAsMSwiMCJdLFsxLDEsIkteaGQiXSxbMiwxLCJcIkN5bFwiKGYpIl0sWzMsMSwiY29uZShmKSJdLFs0LDEsIjAiXSxbMSwwLCIwIl0sWzIsMCwiTF5oZCJdLFszLDAsImNvbmUoZikiXSxbNCwwLCJLWzFdXmhkIl0sWzUsMCwiMCJdLFsxLDIsIkteaGQiXSxbMiwyLCJMXmhkIl0sWzEsMiwiaGF0KGYpIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoiaG9vayIsInNpZGUiOiJ0b3AifX19XSxbMiwzLCJwaSIsMCx7InN0eWxlIjp7ImhlYWQiOnsibmFtZSI6ImVwaSJ9fX1dLFszLDRdLFs1LDZdLFs2LDcsImhhdChwaSkiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFs3LDgsImRlbHRhX2YiLDAseyJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJlcGkifX19XSxbOCw5XSxbMTAsMTEsImYiXSxbMCwxXSxbMSwxMCwiIiwwLHsibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMiwxMSwiYmV0YSIsMV0sWzYsMiwiYWxwaGEiLDFdLFs3LDMsIiIsMSx7ImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV1d
+#align(center, diagram({
+	node((-2, 0), [$0$])
+	node((-1, 0), [$K^hd$])
+	node((0, 0), [$"Cyl"(f)$])
+	node((1, 0), [$cone(f)$])
+	node((2, 0), [$0$])
+	node((-1, -1), [$0$])
+	node((0, -1), [$L^hd$])
+	node((1, -1), [$cone(f)$])
+	node((2, -1), [$K[1]^hd$])
+	node((3, -1), [$0$])
+	node((-1, 1), [$K^hd$])
+	node((0, 1), [$L^hd$])
+	edge((-1, 0), (0, 0), [$"inclusion"$], label-side: left, "hook->")
+	edge((0, 0), (1, 0), [$"projection"$], label-side: left, "->>")
+	edge((1, 0), (2, 0), "->")
+	edge((-1, -1), (0, -1), "->")
+	edge((0, -1), (1, -1), [$"inclusion"$], label-side: left, "hook->")
+	edge((1, -1), (2, -1), [$delta_f$], label-side: left, "->>")
+	edge((2, -1), (3, -1), "->")
+	edge((-1, 1), (0, 1), [$f$], label-side: left, "->")
+	edge((-2, 0), (-1, 0), "->")
+	edge((-1, 0), (-1, 1), "=")
+	edge((0, 0), (0, 1), [$beta$], label-side: left, "->")
+	edge((0, -1), (0, 0), [$alpha$], label-side: left, "->")
+	edge((1, -1), (1, 0), "=")
+}))
+  where
+  - $delta_f$ is the obvious projection (the reason to this strange name will be clear later);
+  - $alpha$ is the obvious inclusion;
+  - $beta(k^p, k^(p + 1), l^p) := f(k^p) + l^p$.
+
+  And further we have
+  - $beta alpha = id_L$;
+  - $alpha beta$ homotopic to $id_("Cyl"(f))$.
+]<cone-cylinder>
+#proof[
+  By direct computation, see also [Manin, III.3.3].
+]
+
+So what IS triangles?
+
+#definition(title: "Triangle")[
+  + A triangle of complex is a diagram (may not be exact) like:
+    #align(center, diagram({
+    	node((-2, 0), [$K^hd$])
+    	node((-1, 0), [$L^hd$])
+    	node((0, 0), [$M^hd$])
+    	node((1, 0), [$K[1]^hd$])
+    	edge((-2, 0), (-1, 0), "->")
+    	edge((-1, 0), (0, 0), "->")
+    	edge((0, 0), (1, 0), "->")
+    }))
+  + A morphism between triangles is a triple of morphisms $(f, g, h)$ such that the following diagram commutes:
+    #align(center, diagram({
+    	node((-2, 0), [$K_1^hd$])
+    	node((-1, 0), [$L_1^hd$])
+    	node((0, 0), [$L_1^hd$])
+    	node((1, 0), [$K_1 [1]^hd$])
+    	node((-2, 1), [$K_2^hd$])
+    	node((-1, 1), [$L_2^hd$])
+    	node((0, 1), [$M_2^hd$])
+    	node((1, 1), [$K_2 [1]^hd$])
+    	edge((-2, 0), (-1, 0), "->")
+    	edge((-1, 0), (0, 0), "->")
+    	edge((0, 0), (1, 0), "->")
+    	edge((-2, 1), (-1, 1), "->")
+    	edge((-1, 1), (0, 1), "->")
+    	edge((0, 1), (1, 1), "->")
+    	edge((-2, 0), (-2, 1), [$f$], label-side: left, "->")
+    	edge((-1, 0), (-1, 1), [$g$], label-side: left, "->")
+    	edge((0, 0), (0, 1), [$h$], label-side: left, "->")
+    	edge((1, 0), (1, 1), [$f[1]$], label-side: left, "->")
+    }))
+    Two triangles are said to be isomorphic if $f, g, h$ are all isomorphisms.
+  + A triangle is said to be *distinguished* if it is isomorphic to a canonical triangle given by a map $f: K^hd -> L^hd$:
+    #align(center, diagram({
+    	node((-2, 0), [$K^hd$])
+    	node((-1, 0), [$"Cyl"(f)$])
+    	node((0, 0), [$cone(f)$])
+    	node((1, 0), [$K[1]^hd$])
+    	edge((-2, 0), (-1, 0), [$"inclusion"$], label-side: left, "hook->")
+    	edge((-1, 0), (0, 0), [$"projection"$], label-side: left, "->")
+    	edge((0, 0), (1, 0), [$delta_f$], label-side: left, "->")
+    }))
+]
+
+Now we can state the main theorem of cones and cylinders and triangles.
+#theorem(title: [Shot exact sequence can be completed to a distinguished triangle])[
+  An exact sequence $ 0 inj K -> L ->> M -> 0 $ of complexes is quasi-isomorphic to $ 0 -> K inj "Cyl"(f) ->> cone(f) -> 0. $
+]
+#proof[
+  The quasi-isomorphim is given by 
+#align(center, diagram({
+	node((-2, 0), [$K$])
+	node((-1, 0), [$L$])
+	node((0, 0), [$M$])
+	node((-2, 1), [$K$])
+	node((-1, 1), [$"Cyl"(f)$])
+	node((0, 1), [$cone(f)$])
+	node((-3, 0), [$0$])
+	node((-3, 1), [$0$])
+	node((1, 0), [$0$])
+	node((1, 1), [$0$])
+	edge((-2, 0), (-1, 0), [$f$], label-side: center, "hook->")
+	edge((-1, 0), (0, 0), [$g$], label-side: center, "->>")
+	edge((-2, 1), (-1, 1), "hook->")
+	edge((-1, 1), (0, 1), "->>")
+	edge((-2, 0), (-2, 1), "=")
+	edge((-1, 0), (-1, 1), [$"projection"$], label-side: center, "<-")
+	edge((0, 0), (0, 1), [$gamma$], label-side: left, "<-")
+	edge((-3, 0), (-2, 0), "->")
+	edge((-3, 1), (-2, 1), "->")
+	edge((0, 0), (1, 0), "->")
+	edge((0, 1), (1, 1), "->")
+}))
+  where $gamma (k^(p + 1), l^p) := g(l^p)$.
+
+  The projection is a quasi-isomorphim is already proved in @cone-cylinder.
+
+  As for $gamma$, see [Manin, III.3.5].
+]
+
+
+= Sheaf cohomology
+== Why you want flabby resolution
 #theorem(title: "All injective sheaves are flabby")[
   All injective sheaves are flabby.
 ]
@@ -321,13 +478,6 @@ With these two theorems in hand we can compute the cohomology groups of a sheaf 
   Because the derived functor $R^i T$ can be computed by $T$-acyclic resolutions, see [Jean, Prop. 11.34].
 ]
 
-== Universal $partial$-functors
-=== Erasable functor
-_Ref_. [Tohoku].
-
-When $F$ is erasable, it with its satellite functors form a universal $partial$-functor.
-
-= Sheaf cohomology
 == Universal $delta$-functors are useful
 Universal $delta$-functors are especially useful because of its uniqueness, which, in this section, will be used to prove the equivalence chain between various cohomology in algebraic topology, i.e. de Rham cohomology $H_dr (X, -)$, singular cohomology $H_"Sing" (X, -)$, Cech cohomology $caron(H)(X, -)$ and sheaf cohomology $H(X, -)$.
 
@@ -438,3 +588,5 @@ We prove $cal(S)$ is acyclic by proving it is soft.
 A sheaf $F in sh(X)$ is flabby if for every *open* $U$, the restriction map $F X -> F U$ is surjective.
 
 Replace the open set in the definition of flabby sheaves by closed set, we obtain *soft* sheaves.
+
+

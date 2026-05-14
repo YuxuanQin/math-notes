@@ -465,7 +465,6 @@ Now we prove the most fundmental theorem which ensures the existence of sheaf co
 ]
 
 = Chapter V: Basic facts about Riemann surface
-
 == $(calo_(X, p), ord_p)$ is a valuation ring
 References of this section: #link("https://www.math.ru.nl/~vhoskins/")[Prof. Victoria Hoskins]'s #link("https://www.bilibili.com/video/BV1E24y1T7LH")[Riemann surface course] (start on `1:26:22`)
 
@@ -474,3 +473,133 @@ Given a connected riemann surface $X$ with its function sheaf $calo_X$, then the
 For $f in calo_X (U)$ and $p in U$, we can define the order of $f$ at $p$ as the order of the local normal form associated with $f$ at $p$. This order function is clearly stable under the equivalence relation which identifies two holomorphic functions around $p$ if thet share the same Tylor expansion in a open set around p, so $ord_p: calo_(X, p) -> NN_oo$ is a well-defined function.
 
 We checked $ord_p$ is indeed a valuation.
+
+== Some examples of Riemann surfaces
+=== Complex projective plane $PP^1$
+Though we call it "plane", it is actually biholomorphic to the sphere.
+
+To prove it is a _compact_ surface, one consider the canonical projective
+$ "pr": CC^2 \\ {0} ->> PP^1, $
+and then there is a quick observation
+$ "pr"(SS^3) = PP^1, $
+where $SS^3 := {(z_1, z_2): |z_1|^2 + |z_2|^2 = 1}$ is the ball.
+
+Since $"pr"$ is continuous and $SS^3$ is compact, $PP^1$ is also compact.
+
+So to prove a surface is compact, we can always try to construct a surjective map from a compact surface to it.
+
+== Map between Riemann surfaces
+=== Canonical local form of a holomorphic map
+#theorem(title: "Canonical local form of non-constant holomorphic map")[
+  Let $f: X -> Y$ be a non-constant holomorphic map between Riemann surfaces.
+
+  Then for any $x in X$, there exist a chart $phi: U -> V$ around $x$ and a chart $psi: W -> Z$ around $f(U)$ with a natural number $k$ such that the induced local function $g$ act on $z in V$ as $g(z) = z^k$.
+
+  // https://q.uiver.app/#r=typst&q=WzAsNCxbMCwwLCJVIl0sWzEsMCwiVyJdLFswLDEsIlYiXSxbMSwxLCJaIl0sWzAsMSwiZiJdLFswLDIsInBoaSIsMCx7Im9mZnNldCI6LTF9XSxbMSwzLCJwc2kiXSxbMiwzLCJnIDo9IHBzaSBjb21wb3NlIGYgY29tcG9zZSBwaGleKC0xKSIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFsyLDAsInBoaV4oLTEpIiwwLHsib2Zmc2V0IjotMX1dXQ==
+#align(center, diagram({
+	node((-1, 0), [$U$])
+	node((0, 0), [$W$])
+	node((-1, 1), [$V$])
+	node((0, 1), [$Z$])
+	edge((-1, 0), (0, 0), [$f$], label-side: left, "->")
+	edge((-1, 0), (-1, 1), [$phi$], label-side: left, shift: 0.05, "->")
+	edge((0, 0), (0, 1), [$psi$], label-side: left, "->")
+	edge((-1, 1), (0, 1), [$g := psi compose f compose phi^(-1)$], label-side: right, "-->")
+	edge((-1, 1), (-1, 0), [$phi^(-1)$], label-side: left, shift: 0.05, "->")
+}))
+]
+
+#corollary(title: "Non-constant holomorphic are open")[
+  Let $f: X -> Y$ be a non-constant holomorphic map between Riemann surfaces, then $f$ is open.
+]
+#proof[
+  Being open is a local property and since the canonical local form $g := psi compose f compose phi^(-1)$ of $f$ is always open, we obtain
+  $ f = psi^(-1) compose g compose phi $
+  is also open.
+]
+
+#corollary(title: "Maximum principle")[
+    Let $f: X -> Y$ be a non-constant holomorphic map between Riemann surfaces, then $f$ does not admit maximum.
+]
+#proof[
+  Because $f$ is open.
+]
+
+#corollary(title: "Identity property")[
+  Let $f, g: X -> Y$ be two non-constant holomorphic maps between Riemann surfaces, then if $f$ and $g$ coincide in a set with accumulation point, then $f = g$.
+]
+#proof[
+  Consider the zero set $K$ of $f - g$, then $K$ admits an accumulation point, and then there is a open set $U$ around this accumulation pint where $f - g$ is the constant function $0$ by the identity property of $CC$.
+
+  Now suppose if $f - g$ is non-constant, then by the previous corollaries $(f - g)(U) = {0}$ is open in $CC$, a contradiction!
+
+  So $f - g$ is constant and equals to $0$.
+]
+
+#theorem(title: "Holomorphic maps and covering projections")[
+  Let $f: X -> Y$ be a non-constant holomorphic map between Riemann surfaces, then it is a covering map, i.e. it is open and discrete.
+]
+#proof[
+  See [Wehler].
+]
+#remark[
+  Here by "covering map" we mean a continuous, open and discrete map.
+]
+
+== When map is proper
+The main result is, when a map between Riemann surfaces is *proper*, then the cardinalities of different fibers are same, because the map is actually a *unbounded, unbranched covering map* (i.e. the common covering map in algebraic topology) and surfaces are *connected*.
+
+#lemma(title: "Proper unbranched coverings are unbounded")[
+  A proper, unbranched covering projection $f: X -> Y$ between locally compact Hausdorff spaces is an unbounded, unbranched covering projection with finite fibres.
+]
+#proof[
+  See [Wehler, Rmk 3.20, Part 4].
+]
+
+This result implies the following important observation:
+
+#corollary(title: "Map between compact surfaces are almost topological covering")[
+
+  A holomorphic map between compact Riemann surfaces is a topological covering map outside branched points.
+
+  This is why sometimes people call those maps _branched_ covering maps.
+]
+
+#definition(title: "Cardinality of fiber")[
+  For a holomorphic map $f: X -> Y$ with finite fibers, we can define the cardinality of fibers $"card" X_y$ as:
+  $ "card" X_y := sum_(x in X_y) "multi"(x), $
+  where $"multi"(x)$ is the multiplicity of $x$ and is defined from the local normal form.
+]
+
+#theorem(title: "Value attainment of proper holomorphic maps")[
+  Let $f: X -> Y$ be a *proper* non-constant holomorphic map, then all fibers $X_y$ for $y in Y$ have same cardinality.
+]
+#proof[
+  See [Wehler, Thm 3.22].
+]
+
+#corollary(title: "Fundamental theorem of algebra")[
+  A complex polynomial $f := a_n x^n + ... + a_1 x + a_0$ with $a_n != 0$ admits $n$ roots on $CC$, counted with multiplicity.
+]
+#proof[
+  View $f$ as a holomorphic function $f(x): PP^1 -> PP^1$, then the cardinality of fiber at $oo$ is
+  $ "card" PP^1_oo = n. $
+  Since $f$ is proper, by the previous theorem, the cardinality of fiber at $0$ is also $n$, i.e.
+  $ "card" {"zeros of" f} = n. $
+]
+#remark[
+  If $X$ and $Y$ are Hausdorff topological spaces and $X$ is *compact*, then every continuous mapping $f: X -> Y$ is automatically proper.
+
+  Note $PP^1$ is compact (it is biholomorphic to the sphere), $f$ is proper.
+]
+
+
+== Analytic continuation
+#definition(title: "Analytic continuation")[
+  TODO
+]
+#theorem(title: "Analytic continuation is a path in the etale space")[
+  Let $a, b in X$ be two points in a Riemann surface and $f_a in calo_a$ and $f_b in calo_b$ be two germs.
+
+  Then a continuation from $f_a$ to $f_b$ along a path $gamma: [0, 1] -> X$ correspondences to a path $tilde(gamma): [0, 1] -> |calo|$ where $|calo|$ is the induced etale space of the structure sheaf $calo$.
+]
